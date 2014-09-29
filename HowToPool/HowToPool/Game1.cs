@@ -72,6 +72,9 @@ namespace HowToPool
 
             // TODO: Add your update logic here
 
+            Update.run(GameTime gameTime);
+           
+         
             base.Update(gameTime);
         }
 
