@@ -19,6 +19,8 @@ namespace HowToPool
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Update update = new Update();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -72,7 +74,7 @@ namespace HowToPool
 
             // TODO: Add your update logic here
 
-            Update.run(GameTime gameTime);
+            //update.run(gameTime);
            
          
             base.Update(gameTime);
