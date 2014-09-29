@@ -14,7 +14,7 @@ namespace HowToPool
 {
     class Update
     {
-        /*public List<Entity> Entities;
+        Config Config = new Config();
 
         public void Run(GameTime gameTime) 
         {
@@ -24,7 +24,7 @@ namespace HowToPool
             }
 
 
-        }*/
+        }
         
 
 

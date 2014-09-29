@@ -8,5 +8,6 @@ namespace HowToPool
     class Config
     {
         private State currentState = new State();
+        public List<Entity> Entities { get; set; }
     }
 }

@@ -29,11 +29,23 @@ namespace HowToPool
     
     class Entity
     {
+
+        List<string> MBOPTIONS = new List<string>();
+        
+
         Vector2 Vel;
 
-        public void Update(List<Entity> Entities,int index) 
+        public void update(List<Entity> Entities,int index) 
         {
-            if(Entities[this.].Vel.X)
+            MBOPTIONS.Add("ok");
+            string msg = "Text that was typed on the keyboard will be displayed here.\nClick OK to continue...";
+                Guide.BeginShowMessageBox(
+                "debug info", msg, MBOPTIONS, 0,
+                MessageBoxIcon.Alert, null, null);
+            /*if(Entities[])
+            {
+                
+            }*/
 
 
         }
