@@ -14,14 +14,14 @@ namespace HowToPool
 {
     class Update
     {
-        public List<Entity> Entities;
+        /*public List<Entity> Entities;
 
         public void Run(GameTime gameTime) 
         {
             for(int i = 0; i < Entities.)
 
 
-        }
+        }*/
         
 
 

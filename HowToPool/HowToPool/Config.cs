@@ -7,6 +7,6 @@ namespace HowToPool
 {
     class Config
     {
-
+        private State currentState = new State();
     }
 }
