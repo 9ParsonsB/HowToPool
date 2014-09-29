@@ -16,7 +16,7 @@ namespace HowToPool
     {
         Config Config = new Config();
 
-        public void Run(GameTime gameTime) 
+        public void run(List<Entity> Entities,GameTime gameTime) 
         {
             for (int i = 0; i < Entities.Count; i++) 
             {

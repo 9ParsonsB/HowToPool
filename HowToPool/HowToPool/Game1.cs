@@ -19,12 +19,24 @@ namespace HowToPool
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Update update = new Update();
+        Update update = new Update();
+
+        List<Entity> Entities = new List<Entity>();
+
+        
+        Entity player = new Entity(0,0);
+
+
+        SpriteFont Font1;
+        Vector2 FontPos;
+        
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -36,6 +48,7 @@ namespace HowToPool
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Entities.Add(player);
 
             base.Initialize();
         }
@@ -50,6 +63,9 @@ namespace HowToPool
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Font1 = Content.Load<SpriteFont>("SpriteFont1");
+            FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
         }
 
         /// <summary>
@@ -74,7 +90,9 @@ namespace HowToPool
 
             // TODO: Add your update logic here
 
-            //update.run(gameTime);
+            //Entities[0].update(Entities, 0);
+
+            update.run(Entities,gameTime);
            
          
             base.Update(gameTime);
@@ -89,7 +107,16 @@ namespace HowToPool
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
 
+            String Text = "Are you still there?";
+
+            Vector2 FontOrigin = Font1.MeasureString(Text) / 2;
+
+            spriteBatch.DrawString(Font1, Text, FontPos, Color.Black,0, FontOrigin, 3.0f, SpriteEffects.None, 0.5f);
+
+            spriteBatch.End();
+         
             base.Draw(gameTime);
         }
     }
