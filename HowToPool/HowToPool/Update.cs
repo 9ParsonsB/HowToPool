@@ -18,7 +18,10 @@ namespace HowToPool
 
         public void Run(GameTime gameTime) 
         {
-            for(int i = 0; i < Entities.)
+            for (int i = 0; i < Entities.Count; i++) 
+            {
+                Entities[i].update(Entities,i);
+            }
 
 
         }
