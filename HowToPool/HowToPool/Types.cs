@@ -15,7 +15,7 @@ namespace HowToPool
     class Player
     {
         public string name; //TODO: give use chance to input name
-        //public Entity Entity;
+        public Entity Entity;
         public int BallsRemaining;
         public string colour;
         public bool isTurn;
@@ -30,13 +30,8 @@ namespace HowToPool
     class Entity
     {
      
-        Vector2 Vel;
+        Vector2 vel;
 
-        public Entity(float x,float y) 
-        {
-            Vel.X = x;
-            Vel.Y = y;
-        }
 
         public void update(List<Entity> Entities,int index) 
         {
@@ -47,6 +42,14 @@ namespace HowToPool
             }*/
 
 
+        }
+
+        class Ball
+        {
+            public Texture2D texture;
+            public Vector3 pos;
+            public Vector2 vel;
+            public 
         }
 
 
