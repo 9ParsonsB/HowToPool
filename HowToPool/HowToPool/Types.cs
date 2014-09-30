@@ -29,9 +29,7 @@ namespace HowToPool
     
     class Entity
     {
-
-        
-
+     
         Vector2 Vel;
 
         public Entity(float x,float y) 

@@ -35,6 +35,11 @@ namespace HowToPool
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
+           
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 600;
+
             Content.RootDirectory = "Content";
             
         }
@@ -107,15 +112,20 @@ namespace HowToPool
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            /*spriteBatch.Begin();
 
-            String Text = "Are you still there?";
-
+            /*String Text = "I don't hate you.";
             Vector2 FontOrigin = Font1.MeasureString(Text) / 2;
+            spriteBatch.DrawString(Font1, Text, FontPos, Color.Black,0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
 
-            spriteBatch.DrawString(Font1, Text, FontPos, Color.Black,0, FontOrigin, 3.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.End();*/
 
-            spriteBatch.End();
+
+
+
+            
+
+
          
             base.Draw(gameTime);
         }
