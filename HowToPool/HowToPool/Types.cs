@@ -42,33 +42,36 @@ namespace HowToPool
 
         public Texture2D texture;
 
-        public Entity(float x,float y,string path) 
+        public Entity(string path,Vector2 _vel) 
         {
 
             fileName = path;
 
-            vel.X = x;
-            vel.Y = y;
+            vel = _vel;
         
         }
 
         public void update(List<Entity> Entities,int index) 
         {
             
-            /*if(Entities[])
-            {
-                
-            }*/
+            
 
 
         }
 
-        class Ball
+        class Ball : Entity
         {
-            public Texture2D texture;
-            public Vector3 pos;
-            public Vector2 vel;
-            public 
+            BoundingSphere sphere;
+
+            int playerType;
+
+
+            public Ball(String path,Vector2 _vel,int _playerType) : base(path,_vel)
+            {
+                playerType = _playerType;
+                
+            }
+          
         }
 
 
