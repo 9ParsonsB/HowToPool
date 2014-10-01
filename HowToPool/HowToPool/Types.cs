@@ -62,9 +62,25 @@ namespace HowToPool
 
         }
 
+        public void draw(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(texture, pos, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
+
+        }
+
         class Ball : Entity
         {
             float mass;
+
+            BoundingSphere sphere;
+
+            public Ball(string path, Vector2 _vel) : base(path,_vel) 
+            {
+            
+
+            }
+
             public bool colliding(Ball ball)
             {
                 float xd = this.pos.X - ball.pos.X;
@@ -121,12 +137,7 @@ namespace HowToPool
         }
 
 
-        public void draw(SpriteBatch spriteBatch) 
-        {
-
-            spriteBatch.Draw(texture, pos, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
-
-        }
+       
 
 
 
