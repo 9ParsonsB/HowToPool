@@ -63,6 +63,14 @@ namespace HowToPool
 
         }
 
+        class Ball
+        {
+            public Texture2D texture;
+            public Vector3 pos;
+            public Vector2 vel;
+            public 
+        }
+
 
         public void draw(SpriteBatch spriteBatch) 
         {
