@@ -12,22 +12,16 @@ using Microsoft.Xna.Framework.Media;
 
 namespace HowToPool
 {
-    class Update
+    class mainUpdate
     {
         Config Config = new Config();
 
-        public void run(List<Entity> Entities,GameTime gameTime) 
+        public void run(List<Entity> Entities,List<Entity.Ball> balls,GameTime gameTime) 
         {
-            for (int i = 0; i < Entities.Count; i++) 
+            for (int i = 0; i < balls.Count; i++) 
             {
-                if (Entities[i].GetType() == balls[0].GetType())
-                {
-                    Entities[i].update(balls, i);
-                }
-                else
-                {
-                    Entities[i].update(Entities,i);
-                }
+                balls[i].ballUpdate(balls,i,gameTime);
+
             }
         }
     }

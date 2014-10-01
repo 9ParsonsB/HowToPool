@@ -19,14 +19,18 @@ namespace HowToPool
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Update update = new Update();
+        mainUpdate updateGame = new mainUpdate();
 
         List<Entity> Entities = new List<Entity>();
         List<Entity.Ball> balls = new List<Entity.Ball>();
         
-        Entity player = new Entity(0,0,"Defenceship");
-        Renderer renderer = new Renderer();
+        //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
+        Entity redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(5, 0),new Vector2(100,100));
+        Entity blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 80, 1, new Vector2(0, 0), new Vector2(500, 100));
+
+
+        Renderer renderer = new Renderer();
 
         SpriteFont Font1;
         Vector2 FontPos;
@@ -54,7 +58,8 @@ namespace HowToPool
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entities.Add(player);
+            Entities.Add(redBall);
+            Entities.Add(blueBall);
 
 
             base.Initialize();
@@ -107,7 +112,7 @@ namespace HowToPool
 
             //Entities[0].update(Entities, 0);
 
-            update.run(Entities,gameTime);
+            updateGame.run(Entities,balls,gameTime);
            
          
             base.Update(gameTime);

@@ -42,13 +42,15 @@ namespace HowToPool
 
         public Texture2D texture;
 
-        public Entity(string path,Vector2 _vel) 
+        public Entity(string path,Vector2 _vel,Vector2 _pos) 
         {
 
             fileName = path;
 
             vel.X = _vel.X;
             vel.Y = _vel.Y;
+
+            pos = _pos;
         
         }
 
@@ -75,25 +77,41 @@ namespace HowToPool
 
             BoundingSphere sphere;
 
-            public Ball(string path, Vector2 _vel) : base(path,_vel) 
+            public Ball(string path,Vector3 center,float radius,float _mass,Vector2 _vel,Vector2 _pos) : base(path,_vel,_pos) 
             {
+                sphere = new BoundingSphere(center,radius);
+
+                mass = _mass;
 
             }
 
-            public void update()
+
+            public void ballUpdate(List<Entity.Ball> balls,int i,GameTime gameTime)
             {
-                for (int i = 0; i < balls; i++)
+
+                float delta = (float)gameTime.ElapsedGameTime.TotalSeconds; 
+
+                balls[i].pos.X += balls[i].vel.X * delta;
+                balls[i].pos.Y += balls[i].vel.Y * delta;
+                
+
+                for (int j = 0; j < balls.Count; j++)
                 {
+                    if(colliding(balls[j]))
+                    {
+                        resolveCollision(balls[j]);
+                    }
+
 
                 }
             }
 
-            public bool colliding(Ball ball)
+            public bool colliding(Entity.Ball ball)
             {
                 float xd = this.pos.X - ball.pos.X;
                 float yd = this.pos.Y - ball.pos.Y;
 
-                float sumRadius = this.sphere + ball.sphere;
+                float sumRadius = this.sphere.Radius + ball.sphere.Radius;
                 float sqrRadius = sumRadius * sumRadius;
 
                 float distSqr = (xd * xd) + (yd * yd);
@@ -106,14 +124,35 @@ namespace HowToPool
                 return false;
             }
 
+
+            public Vector2 normalize(Vector2 v) 
+            {
+                Vector2 u;
+
+                u.X = v.X / v.Length();
+                u.Y = v.X / v.Length();
+
+                return u;
+            }
+
+            public float dot(Vector2 v) 
+            {
+                float ab = v.X * v.Y * (float)Math.Cos(0);
+
+                return ab;
+            }
+
+
+
+
+
             public void resolveCollision(Ball ball)
             {
                 // get the mtd
                 Vector2 delta = (pos - ball.pos);
-                float d = delta.getLength();
-                // minimum translation distance to push balls apart after intersecting
-                Vector2 mtd = delta * (((this.sphere + ball.sphere) - d) / d);
-
+                float d = delta.Length();
+                //minimum translation distance to push balls apart after intersecting
+                Vector2 mtd = delta * (((this.sphere.Radius + ball.sphere.Radius) - d) / d);
 
                 // resolve intersection --
                 // inverse mass quantities
@@ -126,7 +165,7 @@ namespace HowToPool
 
                 // impact speed
                 Vector2 v = (this.vel - (ball.vel));
-                float vn = v.dot(mtd.normalize()); // WTF?
+                float vn = dot(normalize(v)); //Normalizes vector then converts to a single value.
 
                 // sphere intersecting but moving away from each other already
                 if (vn > 0.0f) return;
