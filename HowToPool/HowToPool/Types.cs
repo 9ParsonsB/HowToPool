@@ -30,12 +30,26 @@ namespace HowToPool
     class Entity
     {
      
-        Vector2 Vel;
+        Vector2 vel;
 
-        public Entity(float x,float y) 
+        Vector2 pos;
+
+        Vector2 origin;
+
+        float angle;
+
+        public String fileName;
+
+        public Texture2D texture;
+
+        public Entity(float x,float y,string path) 
         {
-            Vel.X = x;
-            Vel.Y = y;
+
+            fileName = path;
+
+            vel.X = x;
+            vel.Y = y;
+        
         }
 
         public void update(List<Entity> Entities,int index) 
@@ -48,6 +62,19 @@ namespace HowToPool
 
 
         }
+
+
+        public void draw(SpriteBatch spriteBatch) 
+        {
+           
+
+            spriteBatch.Draw(texture, pos, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
+        
+
+
+
+        }
+
 
 
     }

@@ -24,7 +24,8 @@ namespace HowToPool
         List<Entity> Entities = new List<Entity>();
 
         
-        Entity player = new Entity(0,0);
+        Entity player = new Entity(0,0,"Defenceship");
+        Renderer renderer = new Renderer();
 
 
         SpriteFont Font1;
@@ -69,7 +70,13 @@ namespace HowToPool
 
             // TODO: use this.Content to load your game content here
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Font1 = Content.Load<SpriteFont>("SpriteFont1");
+
+            //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
+            //Font1 = Content.Load<SpriteFont>("SpriteFont1");
+
+            renderer.ContentLoad(Entities, Content);
+
+
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
         }
 
@@ -87,6 +94,8 @@ namespace HowToPool
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -111,22 +120,18 @@ namespace HowToPool
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             /*spriteBatch.Begin();
-
             /*String Text = "I don't hate you.";
             Vector2 FontOrigin = Font1.MeasureString(Text) / 2;
             spriteBatch.DrawString(Font1, Text, FontPos, Color.Black,0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
-
             spriteBatch.End();*/
 
+            spriteBatch.Begin();
 
+            renderer.run(Entities,gameTime,spriteBatch);
 
+            spriteBatch.End();
 
-            
-
-
-         
             base.Draw(gameTime);
         }
     }
