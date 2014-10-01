@@ -26,7 +26,7 @@ namespace HowToPool
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(5, 0),new Vector2(100,100));
+        Entity redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(10, 0),new Vector2(100,100));
         Entity blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 80, 1, new Vector2(0, 0), new Vector2(500, 100));
 
 
@@ -34,7 +34,7 @@ namespace HowToPool
 
         SpriteFont Font1;
         Vector2 FontPos;
-        
+        bool isDebug = true;
 
 
         public Game1()
@@ -111,6 +111,11 @@ namespace HowToPool
             // TODO: Add your update logic here
 
             //Entities[0].update(Entities, 0);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
+                isDebug = false;
+                balls[0].pos.X = 100;
+            }
 
             updateGame.run(Entities,balls,gameTime);
            

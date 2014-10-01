@@ -29,14 +29,14 @@ namespace HowToPool
     
     class Entity
     {
-     
-        Vector2 vel;
 
-        Vector2 pos;
+        public Vector2 vel;
 
-        Vector2 origin;
+        public Vector2 pos;
 
-        float angle;
+        public Vector2 origin;
+
+        public float angle;
 
         public String fileName;
 
@@ -54,13 +54,11 @@ namespace HowToPool
         
         }
 
-        public void update(List<Entity> Entities,int index) 
+        public void update(List<Entity> Entities,int index, GameTime gameTime) 
         {
-        
-            /*if(Entities[])
-            {
-                
-            }*/
+            Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
+            this.pos = this.pos + this.vel;
+            //Console.WriteLine(string.Format("INDEX:" + index + ". POS: X:" + this.pos.X + " Y:" + this.pos.Y + ". VEL: X:" + this.vel.X + " Y:" + this.vel.Y));
 
         }
 
@@ -73,9 +71,9 @@ namespace HowToPool
 
         public class Ball : Entity
         {
-            float mass;
+            public float mass;
 
-            BoundingSphere sphere;
+            public BoundingSphere sphere;
 
             public Ball(string path,Vector3 center,float radius,float _mass,Vector2 _vel,Vector2 _pos) : base(path,_vel,_pos) 
             {
@@ -90,9 +88,6 @@ namespace HowToPool
             {
 
                 float delta = (float)gameTime.ElapsedGameTime.TotalSeconds; 
-
-                balls[i].pos.X += balls[i].vel.X * delta;
-                balls[i].pos.Y += balls[i].vel.Y * delta;
                 
 
                 for (int j = 0; j < balls.Count; j++)
