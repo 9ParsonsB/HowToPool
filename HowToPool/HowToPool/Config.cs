@@ -9,5 +9,12 @@ namespace HowToPool
     {
         private State currentState = new State();
         public List<Entity> Entities { get; set; }
+
+        private static float _resistance = 0.1f;
+        public static float resistnace
+        {
+            get { return _resistance; }
+        }
+        
     }
 }
