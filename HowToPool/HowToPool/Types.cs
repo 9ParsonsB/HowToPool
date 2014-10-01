@@ -47,8 +47,8 @@ namespace HowToPool
 
             fileName = path;
 
-            vel.X = x;
-            vel.Y = y;
+            vel.X = _vel.X;
+            vel.Y = _vel.Y;
         
         }
 
@@ -69,7 +69,7 @@ namespace HowToPool
 
         }
 
-        class Ball : Entity
+        public class Ball : Entity
         {
             float mass;
 
@@ -77,8 +77,15 @@ namespace HowToPool
 
             public Ball(string path, Vector2 _vel) : base(path,_vel) 
             {
-            
 
+            }
+
+            public void update()
+            {
+                for (int i = 0; i < balls; i++)
+                {
+
+                }
             }
 
             public bool colliding(Ball ball)
@@ -87,7 +94,7 @@ namespace HowToPool
                 float yd = this.pos.Y - ball.pos.Y;
 
                 float sumRadius = this.sphere + ball.sphere;
-                float sqrRadius = this.sumRadius * this.sumRadius;
+                float sqrRadius = sumRadius * sumRadius;
 
                 float distSqr = (xd * xd) + (yd * yd);
 

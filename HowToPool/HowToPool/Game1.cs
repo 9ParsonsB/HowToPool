@@ -22,7 +22,7 @@ namespace HowToPool
         Update update = new Update();
 
         List<Entity> Entities = new List<Entity>();
-
+        List<Entity.Ball> balls = new List<Entity.Ball>();
         
         Entity player = new Entity(0,0,"Defenceship");
         Renderer renderer = new Renderer();
@@ -55,6 +55,7 @@ namespace HowToPool
         {
             // TODO: Add your initialization logic here
             Entities.Add(player);
+
 
             base.Initialize();
         }

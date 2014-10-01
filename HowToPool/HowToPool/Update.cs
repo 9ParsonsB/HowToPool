@@ -20,13 +20,15 @@ namespace HowToPool
         {
             for (int i = 0; i < Entities.Count; i++) 
             {
-                Entities[i].update(Entities,i);
+                if (Entities[i].GetType() == balls[0].GetType())
+                {
+                    Entities[i].update(balls, i);
+                }
+                else
+                {
+                    Entities[i].update(Entities,i);
+                }
             }
-
-
         }
-        
-
-
     }
 }
