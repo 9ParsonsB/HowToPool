@@ -7,10 +7,10 @@ namespace HowToPool
 {
     class Config
     {
-        private State currentState = new State();
-        public List<Entity> Entities { get; set; }
+        private static State currentState = new State();
+        public static List<Entity> Entities { get; set; }
 
-        public List<Entity.Ball> balls { get; set; }
+        public static List<Entity.Ball> balls { get; set; }
 
         private static float _resistance = 0.1f;
         public static float resistnace

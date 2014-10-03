@@ -19,12 +19,14 @@ namespace HowToPool
         public void run(List<Entity> Entities,List<Entity.Ball> balls,GameTime gameTime) 
         {
 
-            //Console.WriteLine(balls.ToArray().Length);
+            Console.WriteLine(Entities.ToArray().Length);
 
             for (int i = 0; i < Entities.ToArray().Length; i++)
             {
-                Entities[i].update(gameTime);
+                Entities[i].update(gameTime,i);
             }
+
+            Console.WriteLine(balls.ToArray().Length);
 
             for (int i = 0; i < balls.ToArray().Length; i++) 
             {

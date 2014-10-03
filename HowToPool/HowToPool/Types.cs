@@ -55,9 +55,9 @@ namespace HowToPool
         
         }
 
-        public void update(GameTime gameTime) 
+        public void update(GameTime gameTime, int index) 
         {
-            //Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
+            Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
             this.pos = this.pos + this.vel;
             //Console.WriteLine(string.Format("INDEX:" + index + ". POS: X:" + this.pos.X + " Y:" + this.pos.Y + ". VEL: X:" + this.vel.X + " Y:" + this.vel.Y));
 
@@ -66,7 +66,7 @@ namespace HowToPool
         public void draw(SpriteBatch spriteBatch)
         {
           
-            spriteBatch.Draw(texture, p, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(this.texture, this.pos, null, Color.White, this.angle, this.origin, 1f, SpriteEffects.None, 0);
 
         }
 
@@ -90,6 +90,9 @@ namespace HowToPool
 
             public void ballUpdate(List<Entity.Ball> balls,int i,GameTime gameTime)
             {
+
+                Console.WriteLine(this.pos);
+                Console.WriteLine(this.vel);
 
                 this.pos = this.pos + this.vel;
 
@@ -117,7 +120,7 @@ namespace HowToPool
 
                 float distSqr = (xd * xd) + (yd * yd);
 
-                if (distSqr <= sqrRadius)
+                if (distSqr <= sqrRadius) // causing errors as should not return true
                 {
                     return true;
                 }
