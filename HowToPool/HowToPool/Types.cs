@@ -96,17 +96,21 @@ namespace HowToPool
 
                 this.pos = this.pos + this.vel;
 
+                this.sphere.Center = new Vector3(this.pos.X, this.pos.Y, 0);
+
+
                 float delta = (float)gameTime.ElapsedGameTime.TotalSeconds; 
                 
 
                 for (int j = 0; j < balls.Count; j++)
                 {
-                    if(colliding(balls[j]))
-                    {
-                        resolveCollision(balls[j]);
+                    if (balls[i] != balls[j]) { 
+                        if(colliding(balls[j]))
+                        {
+                            resolveCollision(balls[j]);
+                        }
+
                     }
-
-
                 }
             }
 
@@ -131,10 +135,12 @@ namespace HowToPool
 
             public Vector2 normalize(Vector2 v) 
             {
-                Vector2 u;
+                Vector2 u = new Vector2(0,0);
 
-                u.X = v.X / v.Length();
-                u.Y = v.X / v.Length();
+                u.X = v.X / (float)v.Length();
+                u.Y = v.Y / (float)v.Length();
+
+
 
                 return u;
             }
@@ -181,6 +187,9 @@ namespace HowToPool
                 // change in momentum
                 this.vel = this.vel + (impulse* im1);
                 ball.vel = ball.vel - (impulse * im2);
+
+                
+     
 
             }
 

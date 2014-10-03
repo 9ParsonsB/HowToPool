@@ -26,8 +26,11 @@ namespace HowToPool
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(50, 0),new Vector2(100,100));
-        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 80, 1, new Vector2(0, 0), new Vector2(500, 100));
+        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,1,new Vector2(3, 0),new Vector2(100,60));
+        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 1, new Vector2(-3, 0), new Vector2(500, 100));
+
+        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 1, new Vector2(5, 0), new Vector2(100, 50));
+        Entity.Ball blueBall2 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 1, new Vector2(-5, 0), new Vector2(500, 150));
 
 
         Renderer renderer = new Renderer();
@@ -62,6 +65,8 @@ namespace HowToPool
             //Entities.Add(blueBall);
             balls.Add(redBall);
             balls.Add(blueBall);
+            //balls.Add(redBall2);
+            //balls.Add(blueBall2);
 
             
 
