@@ -51,12 +51,13 @@ namespace HowToPool
             vel.Y = _vel.Y;
 
             pos = _pos;
+            
         
         }
 
-        public void update(List<Entity> Entities,int index, GameTime gameTime) 
+        public void update(GameTime gameTime) 
         {
-            Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
+            //Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
             this.pos = this.pos + this.vel;
             //Console.WriteLine(string.Format("INDEX:" + index + ". POS: X:" + this.pos.X + " Y:" + this.pos.Y + ". VEL: X:" + this.vel.X + " Y:" + this.vel.Y));
 
@@ -64,10 +65,11 @@ namespace HowToPool
 
         public void draw(SpriteBatch spriteBatch)
         {
-
-            spriteBatch.Draw(texture, pos, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
+          
+            spriteBatch.Draw(texture, p, null, Color.White, angle, origin, 1f, SpriteEffects.None, 0);
 
         }
+
 
         public class Ball : Entity
         {
@@ -81,11 +83,15 @@ namespace HowToPool
 
                 mass = _mass;
 
+        
+
             }
 
 
             public void ballUpdate(List<Entity.Ball> balls,int i,GameTime gameTime)
             {
+
+                this.pos = this.pos + this.vel;
 
                 float delta = (float)gameTime.ElapsedGameTime.TotalSeconds; 
                 

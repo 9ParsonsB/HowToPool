@@ -26,8 +26,8 @@ namespace HowToPool
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(10, 0),new Vector2(100,100));
-        Entity blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 80, 1, new Vector2(0, 0), new Vector2(500, 100));
+        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),80,1,new Vector2(50, 0),new Vector2(100,100));
+        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 80, 1, new Vector2(0, 0), new Vector2(500, 100));
 
 
         Renderer renderer = new Renderer();
@@ -58,8 +58,13 @@ namespace HowToPool
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entities.Add(redBall);
-            Entities.Add(blueBall);
+            //Entities.Add(redBall);
+            //Entities.Add(blueBall);
+            balls.Add(redBall);
+            balls.Add(blueBall);
+
+            
+
 
 
             base.Initialize();
@@ -80,7 +85,7 @@ namespace HowToPool
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             //Font1 = Content.Load<SpriteFont>("SpriteFont1");
 
-            renderer.ContentLoad(Entities, Content);
+            renderer.ContentLoad(Entities,balls,Content);
 
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
@@ -139,7 +144,7 @@ namespace HowToPool
 
             spriteBatch.Begin();
 
-            renderer.run(Entities,gameTime,spriteBatch);
+            renderer.run(Entities,balls,gameTime,spriteBatch);
 
             spriteBatch.End();
 

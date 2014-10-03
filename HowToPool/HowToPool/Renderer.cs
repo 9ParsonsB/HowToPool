@@ -14,23 +14,36 @@ namespace HowToPool
 {
     class Renderer
     {
-        public void run(List<Entity> Entities, GameTime gameTime,SpriteBatch spriteBatch) 
+        public void run(List<Entity> Entities,List<Entity.Ball> balls, GameTime gameTime,SpriteBatch spriteBatch) 
         {
             //Draws all entities
-            for (int i = 0; i < Entities.Count; i++)
+            /*for (int i = 0; i < Entities.Count; i++)
             {
                 Entities[i].draw(spriteBatch);
             
+            }*/
+
+            for (int i = 0; i < balls.Count; i++) 
+            {
+                balls[i].draw(spriteBatch);
             }
+
+           
         }
 
 
-        public void ContentLoad(List<Entity> Entities,ContentManager content) 
+        public void ContentLoad(List<Entity> Entities,List<Entity.Ball> balls,ContentManager content) 
         {
             //Loads all entities textures so they can be drawn
             for (int i = 0; i < Entities.Count; i++)
             {
                 Entities[i].texture = content.Load<Texture2D>(Entities[i].fileName);
+            }
+
+            for (int i = 0; i < balls.Count; i++)
+            {
+                balls[i].texture = content.Load<Texture2D>(balls
+[i].fileName);
             }
             
         
