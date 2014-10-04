@@ -26,11 +26,14 @@ namespace HowToPool
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,100,new Vector2(3, 2),new Vector2(100,240));
-        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 100,new Vector2(-5, -2), new Vector2(700, 300));
+        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,100,new Vector2(3, 2),new Vector2(0,0));
+        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 100,new Vector2(-5, -2), new Vector2(1000, 0));
 
-        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 1, new Vector2(5, 0), new Vector2(600, 1000));
-        Entity.Ball blueBall2 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 1, new Vector2(-5, 0), new Vector2(500, 150));
+        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 100, new Vector2(5, 0), new Vector2(300, 300));
+        Entity.Ball blueBall2 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 100, new Vector2(-5, 0), new Vector2(600, 150));
+
+        Entity.Ball redBall3 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 100, new Vector2(-1, 5), new Vector2(0, 500));
+        Entity.Ball blueBall3 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 100, new Vector2(2, -2), new Vector2(1200, 150));
 
 
         Renderer renderer = new Renderer();
@@ -65,8 +68,10 @@ namespace HowToPool
             //Entities.Add(blueBall);
             balls.Add(redBall);
             balls.Add(blueBall);
-            //balls.Add(redBall2);
-            //balls.Add(blueBall2);
+            balls.Add(redBall2);
+            balls.Add(blueBall2);
+            balls.Add(redBall3);
+            balls.Add(blueBall3);
 
             
 
