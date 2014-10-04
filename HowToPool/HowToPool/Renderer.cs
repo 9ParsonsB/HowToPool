@@ -42,10 +42,11 @@ namespace HowToPool
 
             for (int i = 0; i < balls.Count; i++)
             {
-                balls[i].texture = content.Load<Texture2D>(balls
-[i].fileName);
+                balls[i].texture = content.Load<Texture2D>(balls[i].fileName);
             }
             
+
+
         
         }
 

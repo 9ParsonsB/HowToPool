@@ -57,7 +57,7 @@ namespace HowToPool
 
         public void update(GameTime gameTime, int index) 
         {
-            Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
+            //Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
             this.pos = this.pos + this.vel;
             //Console.WriteLine(string.Format("INDEX:" + index + ". POS: X:" + this.pos.X + " Y:" + this.pos.Y + ". VEL: X:" + this.vel.X + " Y:" + this.vel.Y));
 
@@ -88,23 +88,86 @@ namespace HowToPool
             }
 
 
-            public void ballUpdate(List<Entity.Ball> balls,int i,GameTime gameTime)
+            public void ballUpdate(List<Entity.Ball> balls, int i, GameTime gameTime)
             {
 
-                Console.WriteLine(this.pos);
-                Console.WriteLine(this.vel);
+                //Console.WriteLine(this.pos);
+                //Console.WriteLine(this.vel);
 
                 this.pos = this.pos + this.vel;
 
-                this.sphere.Center = new Vector3(this.pos.X, this.pos.Y, 0);
+                if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width) 
+                { 
+                    this.vel.X *= -1;
+                    if (this.pos.X < 0)
+                    {
+                        this.pos.X = 1;
+                    }
+                    else 
+                    {
+                        this.pos.X = 1199 - this.texture.Width;
+                    }   
 
+                }
+               
+                if (this.pos.Y < 0 || this.pos.Y > 700 - this.texture.Height) 
+                {  
+                    this.vel.Y *= -1;
+
+                    if (this.pos.Y < 0)
+                    {
+                        this.pos.Y = 1;
+                    }
+                    else 
+                    {
+                        this.pos.Y = 699 - this.texture.Height;
+                    }
+
+                }
+
+       
+
+                this.sphere.Center = new Vector3(this.pos.X, this.pos.Y, 0);
 
                 float delta = (float)gameTime.ElapsedGameTime.TotalSeconds; 
                 
 
                 for (int j = 0; j < balls.Count; j++)
                 {
-                    if (balls[i] != balls[j]) { 
+
+                    if (balls[i] != balls[j]) {
+
+                        if (balls[j].pos.X < 0 || balls[j].pos.X > 1200 - balls[j].texture.Width)
+                        {
+                            
+                            balls[j].vel.X *= -1;
+
+                            if (balls[j].pos.X < 0)
+                            {
+                                balls[j].pos.X = 1;
+                            }
+                            else
+                            {
+                                balls[j].pos.X = 1199 - balls[j].texture.Width;
+                            }
+
+                        }
+
+                        if (balls[j].pos.Y < 0 || balls[j].pos.Y > 700 - balls[j].texture.Height)
+                        {
+                            balls[j].vel.Y *= -1;
+
+                            if (balls[j].pos.Y < 0)
+                            {
+                                balls[j].pos.Y = 1;
+                            }
+                            else
+                            {
+                                balls[j].pos.Y = 699 - balls[j].texture.Height;
+                            }
+
+                        }
+
                         if(colliding(balls[j]))
                         {
                             resolveCollision(balls[j]);
@@ -133,27 +196,9 @@ namespace HowToPool
             }
 
 
-            public Vector2 normalize(Vector2 v) 
-            {
-                Vector2 u = new Vector2(0,0);
+          
 
-                u.X = v.X / (float)v.Length();
-                u.Y = v.Y / (float)v.Length();
-
-
-
-                return u;
-            }
-
-            public float dot(Vector2 v) 
-            {
-                float ab = v.X * v.Y * (float)Math.Cos(0);
-
-                return ab;
-            }
-
-
-
+           
 
 
             public void resolveCollision(Ball ball)
@@ -170,23 +215,39 @@ namespace HowToPool
                 float im2 = 1 / ball.mass;
 
                 // push-pull them apart based off their mass
-                this.pos = pos + (mtd * (im1 / (im1 + im2)));
-                ball.pos = ball.pos - (mtd * (im2 / (im1 + im2)));
+                this.vel = this.vel + (mtd * (im1 / (im1 + im2)));
+                ball.vel = ball.vel - (mtd * (im2 / (im1 + im2)));
+
+                this.vel.X = (float)Math.Round(this.vel.X, 1);
+                this.vel.Y = (float)Math.Round(this.vel.Y, 1);
+
+                ball.vel.X = (float)Math.Round(ball.vel.X, 1);
+                ball.vel.Y = (float)Math.Round(ball.vel.Y, 1);
 
                 // impact speed
                 Vector2 v = (this.vel - (ball.vel));
-                float vn = dot(normalize(v)); //Normalizes vector then converts to a single value.
+                v.Normalize();//Normalizes vector then converts to a single value.
 
-                // sphere intersecting but moving away from each other already
+                float vn = Vector2.Dot(v,v);
+
+                //Sphere intersecting but moving away from each other already
                 if (vn > 0.0f) return;
 
-                // collision impulse
+                //Collision impulse
                 float i = (-(1.0f + Config.resistnace) * vn) / (im1 + im2);
                 Vector2 impulse = mtd * i;
 
                 // change in momentum
-                this.vel = this.vel + (impulse* im1);
+                this.vel = this.vel + (impulse * im1);
                 ball.vel = ball.vel - (impulse * im2);
+               
+
+                
+
+                
+                
+         
+
 
                 
      

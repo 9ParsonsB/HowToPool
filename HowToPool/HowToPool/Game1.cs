@@ -26,10 +26,10 @@ namespace HowToPool
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,1,new Vector2(3, 0),new Vector2(100,60));
-        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 1, new Vector2(-3, 0), new Vector2(500, 100));
+        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,100,new Vector2(3, 2),new Vector2(100,240));
+        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 100,new Vector2(-5, -2), new Vector2(700, 300));
 
-        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 1, new Vector2(5, 0), new Vector2(100, 50));
+        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 1, new Vector2(5, 0), new Vector2(600, 1000));
         Entity.Ball blueBall2 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 1, new Vector2(-5, 0), new Vector2(500, 150));
 
 
@@ -44,7 +44,7 @@ namespace HowToPool
         {
             graphics = new GraphicsDeviceManager(this);
 
-           
+            
             graphics.PreferredBackBufferWidth = 1200;
             graphics.PreferredBackBufferHeight = 700;
 
@@ -88,12 +88,15 @@ namespace HowToPool
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
-            //Font1 = Content.Load<SpriteFont>("SpriteFont1");
+            Font1 = Content.Load<SpriteFont>("SpriteFont1");
 
             renderer.ContentLoad(Entities,balls,Content);
 
-
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+
+            Viewport viewport = graphics.GraphicsDevice.Viewport;
+
+           
         }
 
         /// <summary>
@@ -141,13 +144,14 @@ namespace HowToPool
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            /*spriteBatch.Begin();
-            /*String Text = "I don't hate you.";
-            Vector2 FontOrigin = Font1.MeasureString(Text) / 2;
-            spriteBatch.DrawString(Font1, Text, FontPos, Color.Black,0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
-            spriteBatch.End();*/
-
             spriteBatch.Begin();
+
+            Vector2 FontOrigin = new Vector2(0, 0);
+
+            spriteBatch.DrawString(Font1, balls[0].vel.ToString(), FontPos, Color.Black,0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
+
+
+
 
             renderer.run(Entities,balls,gameTime,spriteBatch);
 
