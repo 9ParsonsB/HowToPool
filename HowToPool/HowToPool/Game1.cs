@@ -22,18 +22,46 @@ namespace HowToPool
         mainUpdate updateGame = new mainUpdate();
 
         List<Entity> Entities = new List<Entity>();
-        List<Entity.Ball> balls = new List<Entity.Ball>();
+        List<Ball> balls = new List<Ball>();
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
-        Entity.Ball redBall = new Entity.Ball("redBall", new Vector3(100,100,0),40,100,new Vector2(3, 2),new Vector2(0,0));
-        Entity.Ball blueBall = new Entity.Ball("blueBall", new Vector3(200, 100, 0), 40, 100,new Vector2(-5, -2), new Vector2(1000, 0));
+        public static Random rnd = new Random();
 
-        Entity.Ball redBall2 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 100, new Vector2(5, 0), new Vector2(300, 300));
-        Entity.Ball blueBall2 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 100, new Vector2(-5, 0), new Vector2(600, 150));
+        static int minv = -50;
+        static int maxv = 50;
 
-        Entity.Ball redBall3 = new Entity.Ball("redBall", new Vector3(100, 50, 0), 40, 100, new Vector2(-1, 5), new Vector2(0, 500));
-        Entity.Ball blueBall3 = new Entity.Ball("blueBall", new Vector3(500, 150, 0), 40, 100, new Vector2(2, -2), new Vector2(1200, 150));
+
+        //Random numebrs(temporary but fun)
+        static float a = (float)rnd.Next(minv, maxv);
+        static float b = (float)rnd.Next(minv, maxv);
+
+        Ball redBall = new Ball("redBall", new Vector3(100,100,0),13,100,new Vector2(a, b),new Vector2(0,0));
+
+        static float a1 = (float)rnd.Next(minv, maxv);
+        static float b1 = (float)rnd.Next(minv, maxv);
+
+        Ball blueBall = new Ball("blueBall", new Vector3(200, 100, 0), 13, 100,new Vector2(a1, b1), new Vector2(1000, 0));
+
+        static float a2 = (float)rnd.Next(minv, maxv);
+        static float b2 = (float)rnd.Next(minv, maxv);
+
+        Ball redBall2 = new Ball("redBall", new Vector3(100, 50, 0), 13, 100, new Vector2(a2, b2), new Vector2(300, 300));
+
+        static float a3 = (float)rnd.Next(minv, maxv);
+        static float b3 = (float)rnd.Next(minv, maxv);
+        
+        Ball blueBall2 = new Ball("blueBall", new Vector3(500, 150, 0), 13, 100, new Vector2(a3, b3), new Vector2(600, 150));
+
+        static float a4 = (float)rnd.Next(minv, maxv);
+        static float b4 = (float)rnd.Next(minv, maxv);
+
+        Ball redBall3 = new Ball("redBall", new Vector3(100, 50, 0), 10, 100, new Vector2(a4, a5), new Vector2(0, 500));
+
+        static float a5 = (float)rnd.Next(minv, maxv);
+        static float b5 = (float)rnd.Next(minv, maxv);
+
+        Ball blueBall3 = new Ball("blueBall", new Vector3(500, 150, 0), 10, 100, new Vector2(a5, -b5), new Vector2(1200, 150));
 
 
         Renderer renderer = new Renderer();

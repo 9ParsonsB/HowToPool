@@ -16,7 +16,7 @@ namespace HowToPool
     {
         Config Config = new Config();
 
-        public void run(List<Entity> Entities, List<Entity.Ball> balls, GameTime gameTime) 
+        public void run(List<Entity> Entities, List<Ball> balls, GameTime gameTime) 
         {
 
             //Console.WriteLine(Entities.ToArray().Length);
