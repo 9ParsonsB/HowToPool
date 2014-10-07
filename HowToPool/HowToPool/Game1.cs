@@ -23,17 +23,18 @@ namespace HowToPool
 
         List<Entity> Entities = new List<Entity>();
         List<Ball> balls = new List<Ball>();
+        List<Ball> tempBalls = new List<Ball>();
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
         public static Random rnd = new Random();
 
-        static int minv = -50;
-        static int maxv = 50;
-
+        
+        static int maxv = 100;
+        static int minv = maxv * -1;
 
         //Random numebrs(temporary but fun)
-        static float a = (float)rnd.Next(minv, maxv);
+       /* static float a = (float)rnd.Next(minv, maxv);
         static float b = (float)rnd.Next(minv, maxv);
 
         Ball redBall = new Ball("redBall", new Vector3(100,100,0),13,100,new Vector2(a, b),new Vector2(0,0));
@@ -56,12 +57,15 @@ namespace HowToPool
         static float a4 = (float)rnd.Next(minv, maxv);
         static float b4 = (float)rnd.Next(minv, maxv);
 
-        Ball redBall3 = new Ball("redBall", new Vector3(100, 50, 0), 10, 100, new Vector2(a4, a5), new Vector2(0, 500));
+        Ball redBall3 = new Ball("redBall", new Vector3(100, 50, 0), 13, 100, new Vector2(a4, a5), new Vector2(0, 500));
 
         static float a5 = (float)rnd.Next(minv, maxv);
         static float b5 = (float)rnd.Next(minv, maxv);
 
-        Ball blueBall3 = new Ball("blueBall", new Vector3(500, 150, 0), 10, 100, new Vector2(a5, -b5), new Vector2(1200, 150));
+        Ball blueBall3 = new Ball("blueBall", new Vector3(500, 150, 0), 13, 100, new Vector2(a5, -b5), new Vector2(1200, 150));*/
+
+
+
 
 
         Renderer renderer = new Renderer();
@@ -69,7 +73,7 @@ namespace HowToPool
         SpriteFont Font1;
         Vector2 FontPos;
         bool isDebug = true;
-
+        
 
         public Game1()
         {
@@ -80,6 +84,27 @@ namespace HowToPool
             graphics.PreferredBackBufferHeight = 700;
 
             Content.RootDirectory = "Content";
+
+            
+
+            for (int i = 1; i < 100; i++)
+            {
+                float a = (float)rnd.Next(minv, maxv);
+                float b = (float)rnd.Next(minv, maxv);
+                float x = (float)rnd.Next(0, graphics.PreferredBackBufferWidth);
+                float y = (float)rnd.Next(0, graphics.PreferredBackBufferHeight);
+                if (i % 2 == 0)
+                {
+                    tempBalls.Add(new Ball("redBall", new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                }
+                else
+                {
+                    tempBalls.Add(new Ball("blueBall", new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                }
+
+            }
+
+
             
         }
 
@@ -94,15 +119,13 @@ namespace HowToPool
             // TODO: Add your initialization logic here
             //Entities.Add(redBall);
             //Entities.Add(blueBall);
-            balls.Add(redBall);
-            balls.Add(blueBall);
-            balls.Add(redBall2);
-            balls.Add(blueBall2);
-            balls.Add(redBall3);
-            balls.Add(blueBall3);
+
 
             
-
+            foreach (Ball i in tempBalls.ToArray())
+            {
+                balls.Add(i);
+            }
 
 
             base.Initialize();

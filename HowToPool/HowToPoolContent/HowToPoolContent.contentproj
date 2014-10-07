@@ -44,14 +44,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="blueBall.jpg">
+    <Compile Include="blueBall.png">
       <Name>blueBall</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="redBall.jpg">
+    <Compile Include="redBall.png">
       <Name>redBall</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

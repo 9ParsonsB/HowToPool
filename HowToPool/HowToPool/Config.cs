@@ -12,7 +12,7 @@ namespace HowToPool
 
         public static List<Ball> balls { get; set; }
 
-        private static float _resistance = 0.05f;
+        private static float _resistance = 0.00f; //usually 0.05f
 
         private static float _maxVel = 50f;
 
