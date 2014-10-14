@@ -22,7 +22,7 @@ namespace HowToPool
         mainUpdate updateGame = new mainUpdate();
 
         List<Entity> Entities = new List<Entity>();
-        List<Ball> balls = new List<Ball>();
+        static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
@@ -30,7 +30,7 @@ namespace HowToPool
         public static Random rnd = new Random();
 
         
-        static int maxv = 100;
+        static int maxv = 10;
         static int minv = maxv * -1;
 
         //Random numebrs(temporary but fun)
