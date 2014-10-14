@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HowToPool
 {
-    static class Config
+    class Config
     {
         private static State currentState = new State();
         public static List<Entity> Entities { get; set; }
