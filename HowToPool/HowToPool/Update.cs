@@ -15,6 +15,7 @@ namespace HowToPool
     class mainUpdate
     {
         Config Config = new Config();
+        
 
         public void run(List<Entity> Entities, List<Ball> balls, GameTime gameTime) 
         {
@@ -33,6 +34,9 @@ namespace HowToPool
                 balls[i].ballUpdate(balls,i,gameTime);
 
             }
+
+
         }
+
     }
 }

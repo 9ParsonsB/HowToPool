@@ -18,6 +18,11 @@ namespace HowToPool
 
         public BoundingSphere sphere;
 
+        public delegate void CollisionEventHandler(Ball ball1, Ball ball2);
+
+        public event CollisionEventHandler BallCollision;
+
+
         public Ball(string path, Vector3 center, float radius, float _mass, Vector2 _vel, Vector2 _pos) : base(path, _vel, _pos)
         {
             sphere = new BoundingSphere(center, radius);
@@ -128,7 +133,7 @@ namespace HowToPool
 
                     if (colliding(balls[j]))
                     {
-                        resolveCollision(balls[j]);
+                        BallCollision(balls[j], this);
                     }
 
                 }
