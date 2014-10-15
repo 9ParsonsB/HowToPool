@@ -29,7 +29,12 @@ namespace HowToPool
 
         public static Random rnd = new Random();
 
-        
+        private bool cWasUp = true;
+
+        private bool rWasUp = true;
+
+        private bool pgWasUp = true;
+
         static int maxv = 10;
         static int minv = maxv * -1;
 
@@ -72,7 +77,6 @@ namespace HowToPool
 
         SpriteFont Font1;
         Vector2 FontPos;
-        bool isDebug = true;
         
 
         public Game1()
@@ -119,7 +123,8 @@ namespace HowToPool
             // TODO: Add your initialization logic here
             //Entities.Add(redBall);
             //Entities.Add(blueBall);
-
+            Config.shouldCollide = true;
+            Config.shouldResist = true;
 
             
             foreach (Ball i in tempBalls.ToArray())
@@ -182,8 +187,64 @@ namespace HowToPool
             //Entities[0].update(Entities, 0);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
-                isDebug = false;
                 balls[0].pos.X = 100;
+            }
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.C) && cWasUp)
+            {
+                cWasUp = false;
+                if (Config.shouldCollide){
+                    Config.shouldCollide = false;
+                }else{
+                    Config.shouldCollide = true;
+                }
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.C))
+            {
+                cWasUp = true;
+            }
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.PageUp) && pgWasUp)
+            {
+                pgWasUp = false;
+
+                Config.resistnace = Config.resistnace + 0.05f;
+
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.PageDown) && pgWasUp)
+            {
+                pgWasUp = false;
+
+                Config.resistnace = Config.resistnace - 0.05f;
+
+            }
+
+            if ((Keyboard.GetState().IsKeyUp(Keys.PageUp) || Keyboard.GetState().IsKeyUp(Keys.PageDown)) && !Keyboard.GetState().IsKeyDown(Keys.PageDown) && !Keyboard.GetState().IsKeyDown(Keys.PageUp))
+            {
+                pgWasUp = true;
+            }
+
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.R) && rWasUp)
+            {
+                rWasUp = false;
+                if (Config.shouldResist)
+                {
+                    Config.shouldResist = false;
+                }
+                else
+                {
+                    Config.shouldResist = true;
+                }
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.R))
+            {
+                rWasUp = true;
             }
 
             updateGame.run(Entities,balls,gameTime);
@@ -204,8 +265,9 @@ namespace HowToPool
 
             Vector2 FontOrigin = new Vector2(0, 0);
 
-            spriteBatch.DrawString(Font1, balls[0].vel.ToString(), FontPos, Color.Black,0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
-
+            //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, FontPos, Color.Black, 0, new Vector2(200,150), 2.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, FontPos, Color.Black, 0, new Vector2(200, 130), 2.0f, SpriteEffects.None, 0.5f);
 
 
 
