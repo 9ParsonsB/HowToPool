@@ -20,7 +20,7 @@ namespace HowToPool
         public float power;
 
         //Cue constructor
-        public Cue(string path, Vector2 _vel, Vector2 _pos,float angle) : base(path, _vel, _pos,angle) 
+        public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle) : base(texture, _vel, _pos,angle) 
         {
             
 
