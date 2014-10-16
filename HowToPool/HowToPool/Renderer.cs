@@ -32,19 +32,18 @@ namespace HowToPool
         }
 
 
-        public void ContentLoad(List<Entity> Entities,List<Ball> balls,ContentManager content) 
+        public List<Texture2D> ContentLoad(List<Entity> Entities,List<Ball> balls,ContentManager content) 
         {
             //Loads all entities textures so they can be drawn
-            for (int i = 0; i < Entities.Count; i++)
-            {
-                Entities[i].texture = content.Load<Texture2D>(Entities[i].fileName);
-            }
+            List<Texture2D> textures = new List<Texture2D>();
 
-            for (int i = 0; i < balls.Count; i++)
-            {
-                balls[i].texture = content.Load<Texture2D>(balls[i].fileName);
-            }
+            textures.Add(content.Load<Texture2D>("blueBall"));
             
+            textures.Add(content.Load<Texture2D>("redBall"));
+
+
+
+            return textures;
 
 
         
@@ -53,3 +52,4 @@ namespace HowToPool
 
     }
 }
+
