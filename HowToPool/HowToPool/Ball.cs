@@ -18,8 +18,8 @@ namespace HowToPool
 
         public BoundingSphere sphere;
 
-        public Ball(string path, Vector3 center, float radius, float _mass, Vector2 _vel, Vector2 _pos)
-            : base(path, _vel, _pos)
+        public Ball(Texture2D _texture, Vector3 center, float radius, float _mass, Vector2 _vel, Vector2 _pos)
+            : base(_texture, _vel, _pos)
         {
             sphere = new BoundingSphere(center, radius);
 
