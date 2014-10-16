@@ -9,10 +9,10 @@ namespace HowToPool
     {
         private static State currentState = new State();
         public static List<Entity> Entities { get; set; }
-
+        public static string State { get; set; }
+        public static int Selected { get; set; }
         public static bool shouldCollide { get; set; }
         public static bool shouldResist { get; set; }
-
         public static List<Ball> balls { get; set; }
 
         private static float _resistance = 0.05f; //usually 0.05f
