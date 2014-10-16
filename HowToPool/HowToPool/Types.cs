@@ -42,10 +42,10 @@ namespace HowToPool
 
         public Texture2D texture;
 
-        public Entity(string path,Vector2 _vel,Vector2 _pos,float _angle = 0) 
+        public Entity(Texture2D _texture,Vector2 _vel,Vector2 _pos,float _angle = 0) 
         {
 
-            fileName = path;
+            texture = _texture;
 
             vel.X = _vel.X;
             vel.Y = _vel.Y;
