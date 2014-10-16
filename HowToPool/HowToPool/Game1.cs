@@ -21,6 +21,9 @@ namespace HowToPool
 
         mainUpdate updateGame = new mainUpdate();
 
+        Color playColor = Color.Black;
+        Color quitColor = Color.Black;
+
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
@@ -31,7 +34,13 @@ namespace HowToPool
 
         private bool cWasUp = true;
 
+        private Texture2D redBall;
+        private Texture2D blueBall;
+
         private bool rWasUp = true;
+
+        private bool wWasUp = true;
+        private bool sWasUp = true;
 
         private bool pgWasUp = true;
 
@@ -89,24 +98,10 @@ namespace HowToPool
 
             Content.RootDirectory = "Content";
 
+            Config.State = "mainMenu";
+            Config.Selected = 0;
+
             
-
-            for (int i = 1; i < 100; i++)
-            {
-                float a = (float)rnd.Next(minv, maxv);
-                float b = (float)rnd.Next(minv, maxv);
-                float x = (float)rnd.Next(0, graphics.PreferredBackBufferWidth);
-                float y = (float)rnd.Next(0, graphics.PreferredBackBufferHeight);
-                if (i % 2 == 0)
-                {
-                    tempBalls.Add(new Ball("redBall", new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
-                }
-                else
-                {
-                    tempBalls.Add(new Ball("blueBall", new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
-                }
-
-            }
 
 
             
@@ -127,10 +122,7 @@ namespace HowToPool
             Config.shouldResist = true;
 
             
-            foreach (Ball i in tempBalls.ToArray())
-            {
-                balls.Add(i);
-            }
+            
 
 
             base.Initialize();
@@ -151,7 +143,10 @@ namespace HowToPool
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
 
-            renderer.ContentLoad(Entities,balls,Content);
+            List<Texture2D> textures = renderer.ContentLoad(Entities, balls, Content);
+
+            redBall = textures[0];
+            blueBall = textures[1];
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
 
@@ -176,6 +171,33 @@ namespace HowToPool
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
 
+        private void StartGame()
+        {
+            for (int i = 1; i < 100; i++)
+            {
+                float a = (float)rnd.Next(minv, maxv);
+                float b = (float)rnd.Next(minv, maxv);
+                float x = (float)rnd.Next(0, graphics.PreferredBackBufferWidth);
+                float y = (float)rnd.Next(0, graphics.PreferredBackBufferHeight);
+                if (i % 2 == 0)
+                {
+                    tempBalls.Add(new Ball(redBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                }
+                else
+                {
+                    tempBalls.Add(new Ball(blueBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                }
+
+            }
+
+            foreach (Ball i in tempBalls.ToArray())
+            {
+                balls.Add(i);
+            }
+            tempBalls = new List<Ball>();
+        }
+
+
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -186,9 +208,57 @@ namespace HowToPool
 
             //Entities[0].update(Entities, 0);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
-                balls[0].pos.X = 100;
+            if (Config.State == "mainMenu")
+            {
+                if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && wWasUp)
+                {
+                    wWasUp = false;
+                    Config.Selected--;
+                    if (Config.Selected < 0)
+                    {
+                        Config.Selected = 0;
+                    }
+                }
+                if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && sWasUp)
+                {
+                    sWasUp = false;
+                    Config.Selected++;
+                    if (Config.Selected > 1)
+                    {
+                        Config.Selected = 1;
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    if (Config.Selected == 1) { Exit(); }
+                    if (Config.Selected == 0) { StartGame(); Config.State = "SPGame"; }
+                }
             }
+            if (Config.State == "SPGame")
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Config.State = "mainMenu";
+                    foreach (Ball b in balls.ToArray())
+                    {
+                        balls.Remove(b);
+                    }
+                }
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.S) || Keyboard.GetState().IsKeyUp(Keys.Down) && !sWasUp)
+            {
+                sWasUp = true;
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.W) || Keyboard.GetState().IsKeyUp(Keys.Up) && !wWasUp)
+            {
+                wWasUp = true;
+            }
+
+            /*if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
+                balls[0].pos.X = 100;
+            }*/
             
             if (Keyboard.GetState().IsKeyDown(Keys.C) && cWasUp)
             {
@@ -263,12 +333,19 @@ namespace HowToPool
 
             spriteBatch.Begin();
 
-            Vector2 FontOrigin = new Vector2(0, 0);
+            if (Config.State == "mainMenu")
+            {
+                if (Config.Selected == 0) { playColor = Color.Red; } else { playColor = Color.Black; }
+                if (Config.Selected == 1) { quitColor = Color.Red; } else { quitColor = Color.Black; }
+                spriteBatch.DrawString(Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2,graphics.PreferredBackBufferHeight / 2), playColor);
+                spriteBatch.DrawString(Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40), quitColor);
+            }
 
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, FontPos, Color.Black, 0, new Vector2(200,150), 2.0f, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, FontPos, Color.Black, 0, new Vector2(200, 130), 2.0f, SpriteEffects.None, 0.5f);
-
+            spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 0), Color.Black);
+            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, new Vector2(0,20), Color.Black);
+            spriteBatch.DrawString(Font1, "Selected: " + Config.Selected.ToString(), new Vector2(0, 40), Color.Black);
+            spriteBatch.DrawString(Font1, "State: " + Config.State, new Vector2(0, 60), Color.Black);
 
 
             renderer.run(Entities,balls,gameTime,spriteBatch);
