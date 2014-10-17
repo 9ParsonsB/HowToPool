@@ -19,6 +19,7 @@ namespace HowToPool
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        
         mainUpdate updateGame = new mainUpdate();
 
         Color playColor = Color.Black;
@@ -92,7 +93,7 @@ namespace HowToPool
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
+         
             
             graphics.PreferredBackBufferWidth = 1200;
             graphics.PreferredBackBufferHeight = 700;

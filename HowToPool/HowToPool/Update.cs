@@ -24,7 +24,7 @@ namespace HowToPool
 
             for (int i = 0; i < Entities.ToArray().Length; i++)
             {
-                Entities[i].update(gameTime,i);
+                Entities[i].update(gameTime);
             }
 
             Console.WriteLine(balls.ToArray().Length);

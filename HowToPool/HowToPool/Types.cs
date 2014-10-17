@@ -71,7 +71,9 @@ namespace HowToPool
         
         }
 
-        public void update(GameTime gameTime, int index) 
+        public Entity() { }
+
+        public virtual void update(GameTime gameTime) 
         {
             //Console.WriteLine(string.Format("INDEX:"+index+". POS: X:"+this.pos.X+" Y:"+this.pos.Y+". VEL: X:"+this.vel.X+" Y:"+ this.vel.Y ));
             this.pos = this.pos + this.vel;

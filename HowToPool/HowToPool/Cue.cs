@@ -16,8 +16,11 @@ namespace HowToPool
     //Class inherits Entity
     class Cue : Entity
     {
+        //Prevents power being from being too high
+        public Vector2 maxVel;
 
-        public float power;
+        //Bounding box for Cue
+        public BoundingBox box;
 
         //Cue constructor
         public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle) : base(texture, _vel, _pos,angle) 
@@ -26,8 +29,21 @@ namespace HowToPool
 
         }
 
+        public override void update(GameTime gameTime)
+        {
+            //this.pos = this.pos + this.vel;
+
+            //Check if mouse is over cue
+            if(box.Intersects(this.box))
+            {
+                
 
 
+            }
+
+
+        }
+        
 
 
     }
