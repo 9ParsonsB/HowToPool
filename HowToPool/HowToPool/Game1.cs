@@ -28,9 +28,10 @@ namespace HowToPool
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
-        List<DrawString> mainMenu = new List<DrawString>();
-        List<DrawString> settingsMenu = new List<DrawString>();
-        List<DrawString> currentMenu;
+        private List<DrawString> currentMenu;
+        string tickState = Config.State;
+        int tickSelected = Config.Selected;
+
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
@@ -42,11 +43,8 @@ namespace HowToPool
         private Texture2D blueBall;
 
         private bool rWasUp = true;
-
-        private bool wWasUp = true;
-        private bool sWasUp = true;
-
-        private bool pgWasUp = true;
+        private static bool pgWasUp = true;
+        
 
         static int maxv = 10;
         static int minv = maxv * -1;
@@ -120,7 +118,8 @@ namespace HowToPool
             //Entities.Add(blueBall);
             Config.shouldCollide = true;
             Config.shouldResist = true;
-
+            Config.soundEnabled = true;
+            Config.fov = 20;
             
             
 
@@ -153,12 +152,14 @@ namespace HowToPool
 
             Viewport viewport = graphics.GraphicsDevice.Viewport;
 
-            mainMenu.Add(new DrawString(Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
-            mainMenu.Add(new DrawString(Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
-            mainMenu.Add(new DrawString(Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
+            Menu.mainMenu.Add(new DrawString("play",Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
+            Menu.mainMenu.Add(new DrawString("settings",Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
+            Menu.mainMenu.Add(new DrawString("quit",Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
 
-
-           
+            Menu.settingsMenu.Add(new DrawString("sound",Font1, "Sound: " + Config.soundEnabled,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2))));
+            Menu.settingsMenu.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
+            Menu.settingsMenu.Add(new DrawString("fps",Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+20)));
+            Menu.settingsMenu.Add(new DrawString("fov",Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+40)));
         }
 
         /// <summary>
@@ -203,82 +204,39 @@ namespace HowToPool
             tempBalls = new List<Ball>();
         }
 
+        public static void clearBalls()
+        {
+            foreach (Ball b in balls.ToArray())
+            {
+                balls.Remove(b);
+            }
+        }
+
 
         protected override void Update(GameTime gameTime)
         {
+            tickState = Config.State;
+            tickSelected = Config.Selected;
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+
+            if (tickState == "quit")
+            {
+                Exit();
+            }
+            if (tickState == "startSPGame")
+            {
+                StartGame();
+                Config.State = "SPGame";
+            }
             
             // TODO: Add your update logic here
 
             //Entities[0].update(Entities, 0);
-
-            if (Config.State == "mainMenu") { currentMenu = mainMenu; }
-
-            if (Config.State == "mainMenu")
-            {
-                if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && wWasUp)
-                {
-                    wWasUp = false;
-                    Config.Selected--;
-                    if (Config.Selected < 0)
-                    {
-                        Config.Selected = 0;
-                    }
-                }
-                if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && sWasUp)
-                {
-                    sWasUp = false;
-                    Config.Selected++;
-                    if (Config.Selected > (currentMenu.Count() - 1))
-                    {
-                        Config.Selected = currentMenu.Count() - 1;
-                    }
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    if (Config.Selected == 2) { Exit(); }
-                    if (Config.Selected == 1) { Config.State = "settingsMenu"; }
-                    if (Config.Selected == 0) { StartGame(); Config.State = "SPGame"; }
-                }
-            }
-            if (Config.State == "settingsMenu")
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                {
-                    Config.State = "mainMenu";
-                }
-            }
-            if (Config.State == "SPGame" )
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                {
-                    Config.State = "mainMenu";
-                    foreach (Ball b in balls.ToArray())
-                    {
-                        balls.Remove(b);
-                    }
-                }
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                {
-                    /*foreach (Ball ball in balls){
-                        if (ball.sphere.intersects)
-                    }*/
-                }
-
-            }
-
-            if ((Keyboard.GetState().IsKeyUp(Keys.S) || Keyboard.GetState().IsKeyUp(Keys.Down)) && !sWasUp && !Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                sWasUp = true;
-            }
-
-            if ((Keyboard.GetState().IsKeyUp(Keys.W) || Keyboard.GetState().IsKeyUp(Keys.Up)) && !wWasUp && !Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                wWasUp = true;
-            }
-
+            Menu.updateMenu(tickState,tickSelected);
+            
             /*if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
                 balls[0].pos.X = 100;
             }*/
@@ -355,14 +313,21 @@ namespace HowToPool
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+                    
 
-            if (Config.State == "mainMenu")
+
+            if (tickState == "mainMenu") { currentMenu = Menu.mainMenu; }
+            if (tickState == "settingMenu") { currentMenu = Menu.settingsMenu; }
+            List<DrawString> mainMenu = Menu.mainMenu;
+            List<DrawString> settingsMenu = Menu.settingsMenu;
+
+            if (tickState == "mainMenu")
             {
                 if (Config.Selected == 0) { playColor = Color.Red; } else { playColor = Color.Black; }
                 if (Config.Selected == 1) { quitColor = Color.Red; } else { quitColor = Color.Black; }
-                foreach (DrawString menuItem in mainMenu.ToArray())
+                foreach (DrawString menuItem in Menu.mainMenu.ToArray())
                 {
-                    if (menuItem.Text == "Play")
+                    if (menuItem.id == "play")
                     {
                         if (Config.Selected == 0 ) 
                         {
@@ -373,7 +338,7 @@ namespace HowToPool
                             mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
                         }
                     }
-                    if (menuItem.Text == "Settings")
+                    if (menuItem.id == "settings")
                     {
                         if (Config.Selected == 1)
                         {
@@ -384,7 +349,7 @@ namespace HowToPool
                             mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
                         }
                     }
-                    if (menuItem.Text == "Quit")
+                    if (menuItem.id == "quit")
                     {
                         if (Config.Selected == 2)
                         {
@@ -400,35 +365,56 @@ namespace HowToPool
                     spriteBatch.DrawString(item.Font, item.Text, item.Position, item.TextColor);
                 }
             }
-            else if (Config.State == "settingsMenu")
+            else if (tickState == "settingsMenu")
             {
                 foreach (DrawString menuItem in settingsMenu.ToArray())
                 {
-                    if (menuItem.Text == "Play")
+                    if (menuItem.id == "sound")
                     {
                         if (Config.Selected == 0)
                         {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
                         }
                         else
                         {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
                         }
                     }
-                    if (menuItem.Text == "Quit")
+                    if (menuItem.id == "fps")
                     {
                         if (Config.Selected == 1)
                         {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
                         }
                         else
                         {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "fov")
+                    {
+                        if (Config.Selected == 2)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "sale")
+                    {
+                        if (Config.Selected == 3)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
                         }
                     }
 
-
-                    DrawString item = mainMenu[mainMenu.IndexOf(menuItem)];
+                    DrawString item = settingsMenu[settingsMenu.IndexOf(menuItem)];
                     spriteBatch.DrawString(item.Font,item.Text,item.Position,item.TextColor);
 
                 }
@@ -438,8 +424,8 @@ namespace HowToPool
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
             spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
             spriteBatch.DrawString(Font1, "Selected: " + Config.Selected.ToString(), new Vector2(0, 60), Color.Black);
-            spriteBatch.DrawString(Font1, "State: " + Config.State, new Vector2(0, 80), Color.Black);
-
+            spriteBatch.DrawString(Font1, "State: " + tickState + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
+            //tickState
 
             renderer.run(Entities,balls,gameTime,spriteBatch);
 
