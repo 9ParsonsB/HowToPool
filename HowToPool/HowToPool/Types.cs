@@ -33,9 +33,11 @@ namespace HowToPool
         public string Text;
         public Vector2 Position;
         public Color TextColor;
+        public string id;
 
-        public DrawString(SpriteFont _Font, string _Text, Vector2 _Position)
+        public DrawString(string _id,SpriteFont _Font, string _Text, Vector2 _Position)
         {
+            id = _id;
             Font = _Font;
             Text = _Text;
             Position = _Position;
