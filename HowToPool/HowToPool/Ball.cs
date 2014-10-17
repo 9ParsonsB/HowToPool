@@ -44,11 +44,11 @@ namespace HowToPool
                 if (this.vel.Y < 0) { this.vel.Y += Config.resistnace; }
                 if (this.vel.Y > 0) { this.vel.Y -= Config.resistnace; }
             }
-            if (this.vel.X > -0.1 && this.vel.X < 0.1) { this.vel.X = 0; }
-            if (this.vel.Y > -0.1 && this.vel.Y < 0.1) { this.vel.Y = 0; }
+            if (this.vel.X > -0.00001 && this.vel.X < 0.00001) { this.vel.X = 0; }
+            if (this.vel.Y > -0.00001 && this.vel.Y < 0.00001) { this.vel.Y = 0; }
 
-            Math.Round(vel.X, 1);
-            Math.Round(vel.Y, 1);
+            Math.Round(vel.X, 4);
+            Math.Round(vel.Y, 4);
 
             if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
             {
