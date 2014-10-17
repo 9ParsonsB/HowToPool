@@ -27,6 +27,9 @@ namespace HowToPool
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
+        List<DrawString> mainMenu = new List<DrawString>();
+        List<DrawString> settingsMenu = new List<DrawString>();
+        List<DrawString> currentMenu;
         
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
@@ -80,8 +83,6 @@ namespace HowToPool
 
 
 
-
-
         Renderer renderer = new Renderer();
 
         SpriteFont Font1;
@@ -102,8 +103,6 @@ namespace HowToPool
             Config.Selected = 0;
 
             
-
-
             
         }
 
@@ -126,6 +125,7 @@ namespace HowToPool
 
 
             base.Initialize();
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -151,6 +151,11 @@ namespace HowToPool
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
 
             Viewport viewport = graphics.GraphicsDevice.Viewport;
+
+            mainMenu.Add(new DrawString(Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
+            mainMenu.Add(new DrawString(Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
+            mainMenu.Add(new DrawString(Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
+
 
            
         }
@@ -203,10 +208,12 @@ namespace HowToPool
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            
             // TODO: Add your update logic here
 
             //Entities[0].update(Entities, 0);
+
+            if (Config.State == "mainMenu") { currentMenu = mainMenu; }
 
             if (Config.State == "mainMenu")
             {
@@ -223,18 +230,26 @@ namespace HowToPool
                 {
                     sWasUp = false;
                     Config.Selected++;
-                    if (Config.Selected > 1)
+                    if (Config.Selected > (currentMenu.Count() - 1))
                     {
-                        Config.Selected = 1;
+                        Config.Selected = currentMenu.Count() - 1;
                     }
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
-                    if (Config.Selected == 1) { Exit(); }
+                    if (Config.Selected == 2) { Exit(); }
+                    if (Config.Selected == 1) { Config.State = "settingsMenu"; }
                     if (Config.Selected == 0) { StartGame(); Config.State = "SPGame"; }
                 }
             }
-            if (Config.State == "SPGame")
+            if (Config.State == "settingsMenu")
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Config.State = "settingsMenu";
+                }
+            }
+            if (Config.State == "SPGame" )
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
@@ -244,14 +259,21 @@ namespace HowToPool
                         balls.Remove(b);
                     }
                 }
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    /*foreach (Ball ball in balls){
+                        if (ball.sphere.intersects)
+                    }*/
+                }
+
             }
 
-            if (Keyboard.GetState().IsKeyUp(Keys.S) || Keyboard.GetState().IsKeyUp(Keys.Down) && !sWasUp)
+            if ((Keyboard.GetState().IsKeyUp(Keys.S) || Keyboard.GetState().IsKeyUp(Keys.Down)) && !sWasUp && !Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 sWasUp = true;
             }
 
-            if (Keyboard.GetState().IsKeyUp(Keys.W) || Keyboard.GetState().IsKeyUp(Keys.Up) && !wWasUp)
+            if ((Keyboard.GetState().IsKeyUp(Keys.W) || Keyboard.GetState().IsKeyUp(Keys.Up)) && !wWasUp && !Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 wWasUp = true;
             }
@@ -337,9 +359,80 @@ namespace HowToPool
             {
                 if (Config.Selected == 0) { playColor = Color.Red; } else { playColor = Color.Black; }
                 if (Config.Selected == 1) { quitColor = Color.Red; } else { quitColor = Color.Black; }
-                spriteBatch.DrawString(Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2,graphics.PreferredBackBufferHeight / 2), playColor);
-                spriteBatch.DrawString(Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40), quitColor);
+                foreach (DrawString menuItem in mainMenu.ToArray())
+                {
+                    if (menuItem.Text == "Play")
+                    {
+                        if (Config.Selected == 0 ) 
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.Text == "Settings")
+                    {
+                        if (Config.Selected == 1)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.Text == "Quit")
+                    {
+                        if (Config.Selected == 2)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+
+                    DrawString item = mainMenu[mainMenu.IndexOf(menuItem)];
+                    spriteBatch.DrawString(item.Font, item.Text, item.Position, item.TextColor);
+                }
             }
+            else if (Config.State == "settingsMenu")
+            {
+                foreach (DrawString menuItem in settingsMenu.ToArray())
+                {
+                    if (menuItem.Text == "Play")
+                    {
+                        if (Config.Selected == 0)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.Text == "Quit")
+                    {
+                        if (Config.Selected == 1)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+
+
+                    DrawString item = mainMenu[mainMenu.IndexOf(menuItem)];
+                    spriteBatch.DrawString(item.Font,item.Text,item.Position,item.TextColor);
+
+                }
+            }
+
 
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 0), Color.Black);
