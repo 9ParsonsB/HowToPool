@@ -26,6 +26,22 @@ namespace HowToPool
         public string name;
     }
 
+
+    class DrawString
+    {
+        public SpriteFont Font;
+        public string Text;
+        public Vector2 Position;
+        public Color TextColor;
+
+        public DrawString(SpriteFont _Font, string _Text, Vector2 _Position)
+        {
+            Font = _Font;
+            Text = _Text;
+            Position = _Position;
+            TextColor = Color.Black;
+        }
+    }
     
     class Entity
     {
