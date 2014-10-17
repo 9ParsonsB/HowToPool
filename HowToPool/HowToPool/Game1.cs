@@ -246,7 +246,7 @@ namespace HowToPool
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
-                    Config.State = "settingsMenu";
+                    Config.State = "mainMenu";
                 }
             }
             if (Config.State == "SPGame" )
