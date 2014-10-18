@@ -371,6 +371,7 @@ namespace HowToPool
                 {
                     if (menuItem.id == "sound")
                     {
+                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sound: " + Config.soundEnabled;
                         if (Config.Selected == 0)
                         {
                             settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
@@ -382,6 +383,13 @@ namespace HowToPool
                     }
                     if (menuItem.id == "fps")
                     {
+                        if (Config.maxFPS == 0) { settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + "None"; }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + Config.maxFPS;
+                        }
+
+                        
                         if (Config.Selected == 1)
                         {
                             settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
@@ -404,6 +412,7 @@ namespace HowToPool
                     }
                     if (menuItem.id == "sale")
                     {
+                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sale? " + Config.SALE;
                         if (Config.Selected == 3)
                         {
                             settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
@@ -420,7 +429,7 @@ namespace HowToPool
                 }
             }
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
+            //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
             spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
             spriteBatch.DrawString(Font1, "Selected: " + Config.Selected.ToString(), new Vector2(0, 60), Color.Black);

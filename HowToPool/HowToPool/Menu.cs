@@ -15,6 +15,7 @@ namespace HowToPool
     {
         private static bool wWasUp = true;
         private static bool sWasUp = true;
+        private static bool enterWasUp = true;
 
         public static List<DrawString> mainMenu = new List<DrawString>();
         public static List<DrawString> settingsMenu = new List<DrawString>();
@@ -73,13 +74,19 @@ namespace HowToPool
                         Config.Selected = currentMenu.Count() - 1;
                     }
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && enterWasUp)
                 {
-                    /*if (tickSelected == 2) { Config.State = "quit"; }
-                    if (tickSelected == 1) { Config.State = "settingsMenu"; }
-                    if (tickSelected == 0) { Config.State = "startSPGame"; }*/
-                }
+                    enterWasUp = false;
+                    if (tickSelected == 0) { if (Config.soundEnabled) { Config.soundEnabled = false; } else { Config.soundEnabled = true; } }
+                    if (tickSelected == 1) { if (Config.maxFPS == 120) { Config.maxFPS = 0; } else { Config.maxFPS += 30; } }
 
+                    if (tickSelected == 3) { if (Config.SALE) { Config.SALE = false; } else { Config.SALE = true; } }
+
+                }
+                if (Keyboard.GetState().IsKeyUp(Keys.Enter) && !enterWasUp)
+                {
+                    enterWasUp = true;
+                }
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     Config.State = "mainMenu";
