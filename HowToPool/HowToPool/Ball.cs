@@ -35,20 +35,54 @@ namespace HowToPool
             //Console.WriteLine(this.pos);
             //Console.WriteLine(this.vel);
 
-            this.pos = this.pos + this.vel;
+
+           
+            if (this.vel.X != 0 || this.vel.Y != 0)
+            {
+                this.pos = this.pos + this.vel;
+            }
+
+            float tempX = this.vel.X;
+            float tempY = this.vel.Y;
+
             if (Config.shouldResist)
             {
-                if (this.vel.X < 0) { this.vel.X += Config.resistnace; }
-                if (this.vel.X > 0) { this.vel.X -= Config.resistnace; }
+                if (this.vel.X != 0)
+                {
+                    if (this.vel.X < 0) { this.vel.X += Config.resistance;}
 
-                if (this.vel.Y < 0) { this.vel.Y += Config.resistnace; }
-                if (this.vel.Y > 0) { this.vel.Y -= Config.resistnace; }
+
+                    if (this.vel.X > 0 && tempX == this.vel.X) { this.vel.X -= Config.resistance; }
+                }
+
+                if (this.vel.Y != 0)
+                {
+                    if (this.vel.Y < 0) { this.vel.Y += Config.resistance; }
+                    if (this.vel.Y > 0 && tempY == this.vel.Y) { this.vel.Y -= Config.resistance; }
+                }
             }
-            if (this.vel.X > -0.00001 && this.vel.X < 0.00001) { this.vel.X = 0; }
-            if (this.vel.Y > -0.00001 && this.vel.Y < 0.00001) { this.vel.Y = 0; }
+           
+            //if (this.vel.X > -1 && this.vel.X < 1) { this.vel.X = 0; }
+            //if (this.vel.Y > -1 && this.vel.Y < 1) { this.vel.Y = 0; }
 
-            Math.Round(vel.X, 4);
-            Math.Round(vel.Y, 4);
+            if (tempX > 0 && this.vel.X < 0 || tempX < 0 && this.vel.X > 0) 
+            {
+                this.vel.X = 0;
+            }
+
+            if (tempY > 0 && this.vel.Y < 0 || tempY < 0 && this.vel.Y > 0)
+            {
+                this.vel.Y = 0;
+            }
+
+           
+
+
+            this.vel.X = (float)Math.Round(this.vel.X, 4);
+            this.vel.Y = (float)Math.Round(this.vel.Y, 4);
+
+            //Math.Floor(this.vel.X);
+            //Math.Floor(this.vel.Y);
 
             if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
             {
@@ -84,6 +118,11 @@ namespace HowToPool
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
+            {
+                Console.WriteLine("Error occured. Position is NaN");
+            }
+           
 
             for (int j = 0; j < balls.Count; j++)
             {
@@ -137,6 +176,15 @@ namespace HowToPool
 
 
             }
+
+           if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
+           {  
+               Console.WriteLine("Error occured. Position is NaN");
+           }
+
+
+
+
         }
 
         public bool colliding(Ball ball)
@@ -180,11 +228,16 @@ namespace HowToPool
             this.vel = this.vel + (mtd * (im1 / (im1 + im2)));
             ball.vel = ball.vel - (mtd * (im2 / (im1 + im2)));
 
-            this.vel.X = (float)Math.Round(this.vel.X, 1);
-            this.vel.Y = (float)Math.Round(this.vel.Y, 1);
+            this.vel.X = (float)Math.Round(this.vel.X, 4);
+            this.vel.Y = (float)Math.Round(this.vel.Y, 4);
 
-            ball.vel.X = (float)Math.Round(ball.vel.X, 1);
-            ball.vel.Y = (float)Math.Round(ball.vel.Y, 1);
+            if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
+            {
+                Console.WriteLine("Error occured. Position is NaN");
+            }
+
+            ball.vel.X = (float)Math.Round(ball.vel.X, 4);
+            ball.vel.Y = (float)Math.Round(ball.vel.Y, 4);
 
             // impact speed
             Vector2 v = (this.vel - (ball.vel));
@@ -196,7 +249,7 @@ namespace HowToPool
             if (vn > 0.0f) return;
 
             //Collision impulse
-            float i = (-(1.0f + Config.resistnace) * vn) / (im1 + im2);
+            float i = (-(1.0f + Config.resistance) * vn) / (im1 + im2);
             Vector2 impulse = mtd * i;
 
             // change in momentum

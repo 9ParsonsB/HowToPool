@@ -30,7 +30,7 @@ namespace HowToPool
             set { Selected = 0; _State = value; }
         }
 
-        public static float resistnace
+        public static float resistance
         {
             get { return _resistance; }
 

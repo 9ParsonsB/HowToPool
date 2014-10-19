@@ -197,6 +197,8 @@ namespace HowToPool
 
             }
 
+            
+
             foreach (Ball i in tempBalls.ToArray())
             {
                 balls.Add(i);
@@ -261,7 +263,7 @@ namespace HowToPool
             {
                 pgWasUp = false;
 
-                Config.resistnace = Config.resistnace + 0.05f;
+                Config.resistance = Config.resistance + 0.05f;
 
             }
 
@@ -269,7 +271,7 @@ namespace HowToPool
             {
                 pgWasUp = false;
 
-                Config.resistnace = Config.resistnace - 0.05f;
+                Config.resistance = Config.resistance - 0.05f;
 
             }
 
@@ -431,9 +433,12 @@ namespace HowToPool
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
             //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
-            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistnace.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
+            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistance.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
             spriteBatch.DrawString(Font1, "Selected: " + Config.Selected.ToString(), new Vector2(0, 60), Color.Black);
             spriteBatch.DrawString(Font1, "State: " + tickState + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
+            
+            
+            
             //tickState
 
             renderer.run(Entities,balls,gameTime,spriteBatch);
