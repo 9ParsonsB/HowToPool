@@ -16,6 +16,7 @@ namespace HowToPool
         public static bool shouldResist { get; set; }
         public static bool SALE { get; set; }
         public static bool soundEnabled { get; set; }
+
         public static List<Ball> balls { get; set; }
 
         private static float _resistance = 0.05f; //usually 0.05f
