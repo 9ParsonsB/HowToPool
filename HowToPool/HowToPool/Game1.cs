@@ -28,6 +28,9 @@ namespace HowToPool
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
+
+        MouseCursor MouseHandler = new MouseCursor();
+
         private List<DrawString> currentMenu;
         string tickState = Config.State;
         int tickSelected = Config.Selected;
@@ -42,10 +45,13 @@ namespace HowToPool
         private Texture2D redBall;
         private Texture2D blueBall;
 
+        static Texture2D cueTexture;
+
+        Cue cue = new Cue(cueTexture, new Vector2(0, 0), new Vector2(100, 100), 0);
+
         private bool rWasUp = true;
         private static bool pgWasUp = true;
         
-
         static int maxv = 10;
         static int minv = maxv * -1;
 
@@ -120,7 +126,7 @@ namespace HowToPool
             Config.shouldResist = true;
             Config.soundEnabled = true;
             Config.fov = 20;
-            
+
             
 
 
@@ -143,7 +149,7 @@ namespace HowToPool
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
 
-            List<Texture2D> textures = renderer.ContentLoad(Entities, balls, Content);
+            List<Texture2D> textures = renderer.ContentLoad(Entities, balls,cue, Content);
 
             redBall = textures[0];
             blueBall = textures[1];
@@ -180,6 +186,8 @@ namespace HowToPool
 
         private void StartGame()
         {
+            
+
             for (int i = 0; i < 100; i++)
             {
                 float a = (float)rnd.Next(minv, maxv);
@@ -301,8 +309,12 @@ namespace HowToPool
             }
 
             updateGame.run(Entities,balls,gameTime);
-           
-         
+
+            //Updates mouse bounding sphere
+            MouseHandler.update(gameTime);
+
+            cue.update(gameTime,MouseHandler);
+
             base.Update(gameTime);
         }
 
@@ -412,9 +424,13 @@ namespace HowToPool
                             settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
                         }
                     }
+
+                    //SALE!!!
                     if (menuItem.id == "sale")
                     {
                         settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sale? " + Config.SALE;
+
+                        //3
                         if (Config.Selected == 3)
                         {
                             settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
@@ -441,7 +457,7 @@ namespace HowToPool
             
             //tickState
 
-            renderer.run(Entities,balls,gameTime,spriteBatch);
+            renderer.run(Entities,balls,cue,gameTime,spriteBatch);
 
             spriteBatch.End();
 

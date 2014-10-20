@@ -29,19 +29,19 @@ namespace HowToPool
 
         }
 
-        public override void update(GameTime gameTime)
+     
+
+
+
+        public void update(GameTime gameTime,MouseCursor MouseObj)
         {
             //this.pos = this.pos + this.vel;
 
-            //Check if mouse is over cue
-            if(box.Intersects(this.box))
+            if (MouseObj.MouseOver(this.box)) 
             {
-                
-
-
+                Console.WriteLine("Over cue");
             }
-
-
+           
         }
         
 

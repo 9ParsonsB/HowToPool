@@ -84,6 +84,7 @@
     <Compile Include="Subscribe.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="Types.cs" />
+    <Compile Include="Mouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

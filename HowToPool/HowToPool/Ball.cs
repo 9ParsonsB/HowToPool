@@ -81,6 +81,9 @@ namespace HowToPool
             this.vel.X = (float)Math.Round(this.vel.X, 4);
             this.vel.Y = (float)Math.Round(this.vel.Y, 4);
 
+            this.pos.X = (float)Math.Round(this.pos.X, 4);
+            this.pos.Y = (float)Math.Round(this.pos.Y, 4);
+
             //Math.Floor(this.vel.X);
             //Math.Floor(this.vel.Y);
 
@@ -121,6 +124,7 @@ namespace HowToPool
             if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
             {
                 Console.WriteLine("Error occured. Position is NaN");
+                
             }
            
 
@@ -177,12 +181,12 @@ namespace HowToPool
 
             }
 
-           if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
-           {  
-               Console.WriteLine("Error occured. Position is NaN");
-           }
+           //if (float.IsNaN(this.pos.X) || float.IsNaN(this.pos.Y))
+           //{  
+           //    Console.WriteLine("Error occured. Position is NaN");
+           //}
 
-
+     
 
 
         }
