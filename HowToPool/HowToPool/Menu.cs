@@ -17,9 +17,131 @@ namespace HowToPool
         private static bool sWasUp = true;
         private static bool enterWasUp = true;
 
+        static Color playColor = Color.Black;
+        static Color quitColor = Color.Black;
+
         public static List<DrawString> mainMenu = new List<DrawString>();
         public static List<DrawString> settingsMenu = new List<DrawString>();
         private static List<DrawString> currentMenu;
+
+
+        public static void drawMenu(string tickState, SpriteBatch spriteBatch)
+        {
+            if (tickState == "mainMenu") { currentMenu = Menu.mainMenu; }
+            if (tickState == "settingMenu") { currentMenu = Menu.settingsMenu; }
+            List<DrawString> mainMenu = Menu.mainMenu;
+            List<DrawString> settingsMenu = Menu.settingsMenu;
+
+            if (tickState == "mainMenu")
+            {
+                if (Config.Selected == 0) { playColor = Color.Red; } else { playColor = Color.Black; }
+                if (Config.Selected == 1) { quitColor = Color.Red; } else { quitColor = Color.Black; }
+                foreach (DrawString menuItem in Menu.mainMenu.ToArray())
+                {
+                    if (menuItem.id == "play")
+                    {
+                        if (Config.Selected == 0)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "settings")
+                    {
+                        if (Config.Selected == 1)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "quit")
+                    {
+                        if (Config.Selected == 2)
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+
+                    DrawString item = mainMenu[mainMenu.IndexOf(menuItem)];
+                    spriteBatch.DrawString(item.Font, item.Text, item.Position, item.TextColor);
+                }
+            }
+            if (tickState == "settingsMenu")
+            {
+                foreach (DrawString menuItem in settingsMenu.ToArray())
+                {
+                    if (menuItem.id == "sound")
+                    {
+                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sound: " + Config.soundEnabled;
+                        if (Config.Selected == 0)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "fps")
+                    {
+                        if (Config.maxFPS == 0) { settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + "None"; }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + Config.maxFPS;
+                        }
+
+
+                        if (Config.Selected == 1)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "fov")
+                    {
+                        if (Config.Selected == 2)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+                    if (menuItem.id == "sale")
+                    {
+                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sale? " + Config.SALE;
+                        if (Config.Selected == 3)
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
+                        }
+                        else
+                        {
+                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
+                        }
+                    }
+
+                    DrawString item = settingsMenu[settingsMenu.IndexOf(menuItem)];
+                    spriteBatch.DrawString(item.Font, item.Text, item.Position, item.TextColor);
+
+                }
+            }
+        }
+
+
 
         public static void updateMenu(string tickState, int tickSelected)
         {

@@ -22,8 +22,7 @@ namespace HowToPool
         
         mainUpdate updateGame = new mainUpdate();
 
-        Color playColor = Color.Black;
-        Color quitColor = Color.Black;
+
 
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
@@ -315,121 +314,10 @@ namespace HowToPool
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-                    
 
 
-            if (tickState == "mainMenu") { currentMenu = Menu.mainMenu; }
-            if (tickState == "settingMenu") { currentMenu = Menu.settingsMenu; }
-            List<DrawString> mainMenu = Menu.mainMenu;
-            List<DrawString> settingsMenu = Menu.settingsMenu;
-
-            if (tickState == "mainMenu")
-            {
-                if (Config.Selected == 0) { playColor = Color.Red; } else { playColor = Color.Black; }
-                if (Config.Selected == 1) { quitColor = Color.Red; } else { quitColor = Color.Black; }
-                foreach (DrawString menuItem in Menu.mainMenu.ToArray())
-                {
-                    if (menuItem.id == "play")
-                    {
-                        if (Config.Selected == 0 ) 
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-                    if (menuItem.id == "settings")
-                    {
-                        if (Config.Selected == 1)
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-                    if (menuItem.id == "quit")
-                    {
-                        if (Config.Selected == 2)
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            mainMenu[mainMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-
-                    DrawString item = mainMenu[mainMenu.IndexOf(menuItem)];
-                    spriteBatch.DrawString(item.Font, item.Text, item.Position, item.TextColor);
-                }
-            }
-            else if (tickState == "settingsMenu")
-            {
-                foreach (DrawString menuItem in settingsMenu.ToArray())
-                {
-                    if (menuItem.id == "sound")
-                    {
-                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sound: " + Config.soundEnabled;
-                        if (Config.Selected == 0)
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-                    if (menuItem.id == "fps")
-                    {
-                        if (Config.maxFPS == 0) { settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + "None"; }
-                        else
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "FPS limit: " + Config.maxFPS;
-                        }
-
-                        
-                        if (Config.Selected == 1)
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-                    if (menuItem.id == "fov")
-                    {
-                        if (Config.Selected == 2)
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-                    if (menuItem.id == "sale")
-                    {
-                        settingsMenu[settingsMenu.IndexOf(menuItem)].Text = "Sale? " + Config.SALE;
-                        if (Config.Selected == 3)
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Red;
-                        }
-                        else
-                        {
-                            settingsMenu[settingsMenu.IndexOf(menuItem)].TextColor = Color.Black;
-                        }
-                    }
-
-                    DrawString item = settingsMenu[settingsMenu.IndexOf(menuItem)];
-                    spriteBatch.DrawString(item.Font,item.Text,item.Position,item.TextColor);
-
-                }
-            }
+            
+            
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
             //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
@@ -440,7 +328,7 @@ namespace HowToPool
             
             
             //tickState
-
+            Menu.drawMenu(tickState, spriteBatch);
             renderer.run(Entities,balls,gameTime,spriteBatch);
 
             spriteBatch.End();
