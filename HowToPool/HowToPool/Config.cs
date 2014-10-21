@@ -35,7 +35,7 @@ namespace HowToPool
         {
             get { return _resistance; }
 
-            set { _resistance = value; }
+            set { _resistance = (float)Math.Round(value,2); }
         }
 
         public static float maxVel
