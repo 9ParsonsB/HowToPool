@@ -17,7 +17,7 @@ namespace HowToPool
         Config Config = new Config();
 
 
-        public void run(List<Entity> Entities, List<Ball> balls,GameTime gameTime) 
+        public void run(List<Entity> Entities, List<Ball> balls,Cue cue,MouseCursor mouseHandler,GameTime gameTime) 
         {
 
             //Console.WriteLine(Entities.ToArray().Length);
@@ -27,7 +27,6 @@ namespace HowToPool
                 Entities[i].update(gameTime);
             }
 
-            
 
             //Console.WriteLine(balls.ToArray().Length);
 
@@ -37,6 +36,9 @@ namespace HowToPool
 
             }
 
+            cue.update(gameTime,mouseHandler,balls);
+
+            mouseHandler.update(gameTime);
 
         }
 

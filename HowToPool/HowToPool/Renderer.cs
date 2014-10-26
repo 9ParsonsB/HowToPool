@@ -41,7 +41,7 @@ namespace HowToPool
             
             textures.Add(content.Load<Texture2D>("redBall"));
 
-            cue.texture = content.Load<Texture2D>("blueBall");
+            cue.texture = content.Load<Texture2D>("cue");
             
 
             return textures;

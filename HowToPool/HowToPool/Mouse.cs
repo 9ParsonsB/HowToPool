@@ -17,6 +17,12 @@ namespace HowToPool
         //Bounding sphere for box
         public BoundingSphere sphere;
 
+        public MouseState mouseState;
+
+        public MouseState oldMouseState;
+
+  
+
         public MouseCursor() : base()
         {
 
@@ -54,10 +60,15 @@ namespace HowToPool
         public override void update(GameTime gameTime)
         {
             //Mouse updating goes here
+            mouseState = Mouse.GetState();
+            oldMouseState = mouseState;
+  
 
             //Updates mouse bounding spheres position
-            this.sphere.Center = new Vector3(Mouse.GetState().X,Mouse.GetState().Y,0);
-            Console.WriteLine("Mouse Co-ords " + this.sphere.Center);
+            this.sphere.Center = new Vector3(mouseState.X,mouseState.Y,0);
+            //Console.WriteLine(oldPos);
+            //Console.WriteLine("Mouse Co-ords " + this.sphere.Center);
+          
 
 
         }

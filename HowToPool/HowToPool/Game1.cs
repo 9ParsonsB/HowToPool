@@ -22,13 +22,13 @@ namespace HowToPool
         
         mainUpdate updateGame = new mainUpdate();
 
-
-
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
         List<Ball> tempBalls = new List<Ball>();
 
-        MouseCursor MouseHandler = new MouseCursor();
+        MouseCursor mouseHandler = new MouseCursor();
+
+        static Cue cue = new Cue();
 
         private List<DrawString> currentMenu;
         string tickState = Config.State;
@@ -43,10 +43,6 @@ namespace HowToPool
 
         private Texture2D redBall;
         private Texture2D blueBall;
-
-        static Texture2D cueTexture;
-
-        Cue cue = new Cue(cueTexture, new Vector2(0, 0), new Vector2(100, 100), 0);
 
         private bool rWasUp = true;
         private static bool pgWasUp = true;
@@ -126,7 +122,7 @@ namespace HowToPool
             Config.soundEnabled = true;
             Config.fov = 20;
 
-            
+
 
 
             base.Initialize();
@@ -166,6 +162,9 @@ namespace HowToPool
             Menu.settingsMenu.Add(new DrawString("fps",Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+20)));
             Menu.settingsMenu.Add(new DrawString("fov",Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+40)));
         }
+
+
+        
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -211,6 +210,9 @@ namespace HowToPool
                 balls.Add(i);
             }
             tempBalls = new List<Ball>();
+
+            cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
+
         }
 
         public static void clearBalls()
@@ -219,9 +221,10 @@ namespace HowToPool
             {
                 balls.Remove(b);
             }
+
         }
 
-
+       
         protected override void Update(GameTime gameTime)
         {
             tickState = Config.State;
@@ -307,9 +310,10 @@ namespace HowToPool
                 rWasUp = true;
             }
 
-            updateGame.run(Entities,balls,gameTime);
+            updateGame.run(Entities,balls,cue,mouseHandler,gameTime);
            
-         
+            
+
             base.Update(gameTime);
         }
 
@@ -324,8 +328,7 @@ namespace HowToPool
             spriteBatch.Begin();
 
 
-            
-            
+ 
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
             //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
@@ -337,7 +340,7 @@ namespace HowToPool
             
             //tickState
             Menu.drawMenu(tickState, spriteBatch);
-            renderer.run(Entities,balls,gameTime,spriteBatch);
+            renderer.run(Entities,balls,cue,gameTime,spriteBatch);
 
             spriteBatch.End();
 

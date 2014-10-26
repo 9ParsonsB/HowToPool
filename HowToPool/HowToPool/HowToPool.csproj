@@ -82,7 +82,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Subscribe.cs" />
-    <Compile Include="Mouse.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="Types.cs" />

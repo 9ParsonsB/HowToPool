@@ -62,8 +62,6 @@ namespace HowToPool
                 }
             }
            
-            //if (this.vel.X > -1 && this.vel.X < 1) { this.vel.X = 0; }
-            //if (this.vel.Y > -1 && this.vel.Y < 1) { this.vel.Y = 0; }
 
             if (tempX > 0 && this.vel.X < 0 || tempX < 0 && this.vel.X > 0) 
             {
@@ -74,9 +72,6 @@ namespace HowToPool
             {
                 this.vel.Y = 0;
             }
-
-           
-
 
             this.vel.X = (float)Math.Round(this.vel.X, 4);
             this.vel.Y = (float)Math.Round(this.vel.Y, 4);
