@@ -24,7 +24,6 @@ namespace HowToPool
 
         List<Entity> Entities = new List<Entity>();
         static List<Ball> balls = new List<Ball>();
-        List<Ball> tempBalls = new List<Ball>();
 
         MouseCursor mouseHandler = new MouseCursor();
 
@@ -194,22 +193,14 @@ namespace HowToPool
                 float y = (float)rnd.Next(0, graphics.PreferredBackBufferHeight);
                 if (i % 2 == 0)
                 {
-                    tempBalls.Add(new Ball(redBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                    balls.Add(new Ball(redBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
                 }
                 else
                 {
-                    tempBalls.Add(new Ball(blueBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
+                    balls.Add(new Ball(blueBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
                 }
 
             }
-
-            
-
-            foreach (Ball i in tempBalls.ToArray())
-            {
-                balls.Add(i);
-            }
-            tempBalls = new List<Ball>();
 
             cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
 
