@@ -21,13 +21,27 @@ namespace HowToPool
 
         public Vector2 defaultPos;
 
+        public Vector2 power;
+
+        public bool released = true;
+
+        public bool selected = false;
+
+        public int maxPower;
+
+        public float rotAmount = 0.02f;
+
         //Bounding box for Cue
         public BoundingBox box;
 
         //Cue constructor
-        public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle) : base(texture, _vel, _pos,angle) 
+        public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
         {
-            maxDistance = new Vector2(50);
+            maxDistance = new Vector2(80);
+
+            maxPower = 10;
+
+            this.angle = 0;
 
             defaultPos = _pos;
 
@@ -36,56 +50,52 @@ namespace HowToPool
 
         }
 
+        //Default constructor for cue
         public Cue() {}
 
+
+        public void allignCue(List<Ball> balls) 
+        {
+
+            if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
+            {
+                defaultPos.X = balls[0].pos.X - texture.Width - 50;
+                defaultPos.Y = balls[0].pos.Y + texture.Height;
+
+            }
+
+            //If cue not selected
+            if (this.selected == false)
+            {
+                //Set new default position
+                pos = defaultPos;
+            }
+
+        }
 
 
         public void update(GameTime gameTime, MouseCursor MouseObj, List<Ball> balls)
         {
             //this.pos = this.pos + this.vel;
 
+            allignCue(balls);
+            
+           
+            //If player releases cue with power
+            if (released == true && power.X != 0)
+            {
+                //this.pos += this.vel;
+                balls[0].vel.X += power.X;
+                power.X  = 0;
+
+
+            }
+            
+
             //Update bounding box to current pos of cue
             this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + this.texture.Height + 50, 0));
 
-            //Resistance code(Note:Will add into entity class soon)
-            float tempX = this.vel.X;
-            float tempY = this.vel.Y;
-
-            if (Config.shouldResist)
-            {
-                if (this.vel.X != 0)
-                {
-                    if (this.vel.X < 0) { this.vel.X += Config.resistance; }
-
-
-                    if (this.vel.X > 0 && tempX == this.vel.X) { this.vel.X -= Config.resistance; }
-                }
-
-                if (this.vel.Y != 0)
-                {
-                    if (this.vel.Y < 0) { this.vel.Y += Config.resistance; }
-                    if (this.vel.Y > 0 && tempY == this.vel.Y) { this.vel.Y -= Config.resistance; }
-                }
-            }
-
-
-            if (tempX > 0 && this.vel.X < 0 || tempX < 0 && this.vel.X > 0)
-            {
-                this.vel.X = 0;
-            }
-
-            if (tempY > 0 && this.vel.Y < 0 || tempY < 0 && this.vel.Y > 0)
-            {
-                this.vel.Y = 0;
-            }
-
-            this.vel.X = (float)Math.Round(this.vel.X, 4);
-            this.vel.Y = (float)Math.Round(this.vel.Y, 4);
-
-            this.pos.X = (float)Math.Round(this.pos.X, 4);
-            this.pos.Y = (float)Math.Round(this.pos.Y, 4);
-
-
+            resistance();
 
             if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
             {
@@ -117,52 +127,71 @@ namespace HowToPool
             }
 
 
-            this.pos += this.vel;
+            BoundingSphere sphere = new BoundingSphere(new Vector3(this.pos.X + this.texture.Width,this.pos.Y + this.texture.Height / 2,0),10);
 
-            BoundingSphere sphere = new BoundingSphere(new Vector3(this.pos.X + this.texture.Width,this.pos.Y + this.texture.Height,0),5);
-
-            for(int i = 0; i < balls.Count;i++)
+            /*for(int i = 0; i < balls.Count;i++)
             {
                 //If end of cue intersects ball
                 if (balls[i].sphere.Intersects(sphere)) 
                 {
-                    balls[i].vel += this.vel;
+                    if(this.vel.X != 0 || this.vel.Y != 0)
+                    {
+                        balls[i].vel.X += 5;
+                    }
                 }
+            }*/
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Q)) 
+            {
+                this.angle -= rotAmount;
+                
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                this.angle += rotAmount;
+
+               
             }
 
 
             //If mouse cursor is over cue bounding box
             if (MouseObj.MouseOver(this.box)) 
             {
-                //Console.WriteLine("Over cue");
-
-                //If user clicks on cue
-                if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    //If mouse position has changed
-                    // if (MouseObj.oldMouseState.X != MouseObj.mouseState.X || MouseObj.oldMouseState.Y != MouseObj.mouseState.Y) 
-                    //{
-                    Console.WriteLine("Mouse pressed");
-
-                    if ((defaultPos.X - this.pos.X) < maxDistance.X)
-                    {
-                        this.pos.X -= 5;
-                        this.vel.X += 3;
-                    }
-
-                    
-
-                    //If mouse moved to left
-                    //if (MouseObj.oldMouseState.X < MouseObj.mouseState.X) 
-                    // {
-                    //Move cue to left by mouse difference
-                    //this.pos.X -= (MouseObj.mouseState.X - MouseObj.oldMouseState.X);    
-                    //}
-
-                    //}
-                }
                
+                //If user clicks on cue
+                 if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
+                 {
+                     //Cue is now selected
+                     selected = true;
 
+                     //Cue isn't released
+                     released = false;
+                     
+                     //Limits cues distamce from default
+                     if ((defaultPos.X - this.pos.X) < maxDistance.X)
+                     {
+                         this.pos.X -= 5;
+
+                         if (this.power.X < maxPower) 
+                         {
+                             this.power.X += 1;
+                         }
+
+                     }
+
+                 }
+     
+            }
+
+            //If cue released after cue has been selected
+            if (MouseObj.mouseState.LeftButton == ButtonState.Released && selected == true)
+            {
+                released = true;
+
+                balls[0].vel.X += power.X;
+
+                this.pos = defaultPos;
             }
            
         }

@@ -36,7 +36,10 @@ namespace HowToPool
 
             }
 
-            cue.update(gameTime,mouseHandler,balls);
+            if (balls.Count > 0)
+            {
+                cue.update(gameTime, mouseHandler, balls);
+            }
 
             mouseHandler.update(gameTime);
 

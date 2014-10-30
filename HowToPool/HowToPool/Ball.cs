@@ -14,18 +14,19 @@ namespace HowToPool
 {
     class Ball : Entity
     {
-        public float mass;
+        
 
         public BoundingSphere sphere;
 
-        public Ball(Texture2D _texture, Vector3 center, float radius, float _mass, Vector2 _vel, Vector2 _pos)
+        //Only texture,mass,radius and position have to be specified when creating object. The rest are set by default
+        public Ball(Texture2D _texture, float radius, float _mass,Vector2 _pos,Vector2 _vel = default(Vector2), Vector3 center = default(Vector3))
             : base(_texture, _vel, _pos)
         {
-            sphere = new BoundingSphere(center, radius);
+            sphere = new BoundingSphere(new Vector3(_pos.X,_pos.Y,0), radius);
 
             mass = _mass;
 
-
+            
 
         }
 
@@ -35,14 +36,16 @@ namespace HowToPool
             //Console.WriteLine(this.pos);
             //Console.WriteLine(this.vel);
 
-
+            
            
             if (this.vel.X != 0 || this.vel.Y != 0)
             {
                 this.pos = this.pos + this.vel;
             }
 
-            float tempX = this.vel.X;
+            resistance();
+
+            /*float tempX = this.vel.X;
             float tempY = this.vel.Y;
 
             if (Config.shouldResist)
@@ -77,7 +80,9 @@ namespace HowToPool
             this.vel.Y = (float)Math.Round(this.vel.Y, 4);
 
             this.pos.X = (float)Math.Round(this.pos.X, 4);
-            this.pos.Y = (float)Math.Round(this.pos.Y, 4);
+            this.pos.Y = (float)Math.Round(this.pos.Y, 4);*/
+             
+             
 
             //Math.Floor(this.vel.X);
             //Math.Floor(this.vel.Y);
@@ -168,7 +173,7 @@ namespace HowToPool
 
                     if (colliding(balls[j]) & Config.shouldCollide)
                     {
-                        resolveCollision(balls[j]);
+                        resolveCollision(balls[j],this.sphere,balls[j].sphere);
                     }
 
                 }
@@ -210,7 +215,7 @@ namespace HowToPool
 
 
 
-        public void resolveCollision(Ball ball)
+        /*public void resolveCollision(Ball ball)
         {
             // get the mtd
             Vector2 delta = (pos - ball.pos);
@@ -255,7 +260,7 @@ namespace HowToPool
             this.vel = this.vel + (impulse * im1);
             ball.vel = ball.vel - (impulse * im2);
 
-        }
+        }*/
 
     }
 }

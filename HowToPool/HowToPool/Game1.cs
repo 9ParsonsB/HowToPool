@@ -43,6 +43,7 @@ namespace HowToPool
 
         private Texture2D redBall;
         private Texture2D blueBall;
+        private Texture2D whiteBall;
 
         private bool rWasUp = true;
         private static bool pgWasUp = true;
@@ -94,8 +95,8 @@ namespace HowToPool
             graphics = new GraphicsDeviceManager(this);
          
             
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 700;
+            graphics.PreferredBackBufferWidth = Config.width;
+            graphics.PreferredBackBufferHeight = Config.height;
 
             Content.RootDirectory = "Content";
 
@@ -122,7 +123,7 @@ namespace HowToPool
             Config.soundEnabled = true;
             Config.fov = 20;
 
-
+            
 
 
             base.Initialize();
@@ -146,8 +147,9 @@ namespace HowToPool
 
             List<Texture2D> textures = renderer.ContentLoad(Entities, balls,cue, Content);
 
-            redBall = textures[0];
-            blueBall = textures[1];
+            blueBall = textures[0];
+            redBall = textures[1]; 
+            whiteBall = textures[2];
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
 
@@ -186,7 +188,7 @@ namespace HowToPool
         {
             
 
-            for (int i = 0; i < 100; i++)
+           /* for (int i = 0; i < 100; i++)
             {
                 float a = (float)rnd.Next(minv, maxv);
                 float b = (float)rnd.Next(minv, maxv);
@@ -209,9 +211,37 @@ namespace HowToPool
             {
                 balls.Add(i);
             }
-            tempBalls = new List<Ball>();
+            tempBalls = new List<Ball>();*/
 
+            //Create cue
             cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
+
+            float mass = 50;
+
+            //Creates all balls for game
+
+            //Need to be first(White ball)
+            balls.Add(new Ball(whiteBall, 12.5f, mass,new Vector2(500, Config.height / 2)));
+
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3), Config.height / 2 )));
+
+            balls.Add(new Ball(redBall,12.5f, mass,new Vector2(Config.width - (Config.width / 3) + 29, (Config.height / 2) - 14 )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 29, (Config.height / 2) + 14 )));
+
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) - 27 )));
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) + 27 )));
+
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) - 14 )));
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) - 41)));
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) + 14 )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) + 41 )));
+
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) - 27 )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) - 55 )));
+            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 27 )));
+            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 55 )));
 
         }
 

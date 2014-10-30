@@ -17,9 +17,14 @@ namespace HowToPool
         public static bool SALE { get; set; }
         public static bool soundEnabled { get; set; }
 
+        //public static float g = (float)6.673 * (float)((Math.Pow(10, -11)));
+
         public static List<Ball> balls { get; set; }
 
-        private static float _resistance = 0.05f; //usually 0.05f
+        public static int width = 1200;
+        public static int height = 700;
+
+        private static float _resistance = 0.0010f; //usually 0.05f
 
         private static float _maxVel = 50f;
 
