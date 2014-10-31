@@ -59,12 +59,18 @@ namespace HowToPool
 
             if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
             {
-                defaultPos.X = balls[0].pos.X - texture.Width - 50;
-                defaultPos.Y = balls[0].pos.Y + texture.Height;
+                this.defaultPos.X = balls[0].pos.X - texture.Width - 50;
+                this.defaultPos.Y = balls[0].pos.Y + texture.Height;
+
+                
+               
 
             }
 
+           
+
             //If cue not selected
+
             if (this.selected == false)
             {
                 //Set new default position
@@ -72,6 +78,11 @@ namespace HowToPool
             }
 
         }
+
+        public Vector2 RotateAboutOrigin(Vector2 point, Vector2 origin, float rotation)
+        {
+            return Vector2.Transform(point - origin, Matrix.CreateRotationZ(rotation)) + origin;
+        } 
 
 
         public void update(GameTime gameTime, MouseCursor MouseObj, List<Ball> balls)
@@ -90,10 +101,20 @@ namespace HowToPool
 
 
             }
-            
+
+
+            double test = (Math.Pow(texture.Width, 2) + Math.Pow(texture.Width, 2)) - (2 * (texture.Width * texture.Width) * Math.Cos(this.angle));
+
+            test = Math.Sqrt(test);
+
+            float t = (float)test;
 
             //Update bounding box to current pos of cue
-            this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + this.texture.Height + 50, 0));
+            //this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + t + 50, 0));
+
+            this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + t + 50, 0));
+
+            
 
             resistance();
 
@@ -127,38 +148,33 @@ namespace HowToPool
             }
 
 
+
             BoundingSphere sphere = new BoundingSphere(new Vector3(this.pos.X + this.texture.Width,this.pos.Y + this.texture.Height / 2,0),10);
 
-            /*for(int i = 0; i < balls.Count;i++)
-            {
-                //If end of cue intersects ball
-                if (balls[i].sphere.Intersects(sphere)) 
-                {
-                    if(this.vel.X != 0 || this.vel.Y != 0)
-                    {
-                        balls[i].vel.X += 5;
-                    }
-                }
-            }*/
+          
 
             if (Keyboard.GetState().IsKeyDown(Keys.Q)) 
             {
                 this.angle -= rotAmount;
-                
+
+                this.pos = RotateAboutOrigin(this.pos, balls[0].pos, this.angle);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 this.angle += rotAmount;
 
-               
+                this.pos = RotateAboutOrigin(this.pos, balls[0].pos, this.angle);
             }
+
+            
 
 
             //If mouse cursor is over cue bounding box
             if (MouseObj.MouseOver(this.box)) 
             {
-               
+              
+
                 //If user clicks on cue
                  if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
                  {
@@ -180,6 +196,8 @@ namespace HowToPool
 
                      }
 
+                     
+
                  }
      
             }
@@ -190,6 +208,7 @@ namespace HowToPool
                 released = true;
 
                 balls[0].vel.X += power.X;
+                balls[0].vel.Y += power.Y;
 
                 this.pos = defaultPos;
             }

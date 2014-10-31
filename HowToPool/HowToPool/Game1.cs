@@ -202,7 +202,7 @@ namespace HowToPool
                     balls.Add(new Ball(blueBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
                 }
 
-            }
+            }*/
 
             cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
 

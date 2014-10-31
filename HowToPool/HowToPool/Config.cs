@@ -24,7 +24,7 @@ namespace HowToPool
         public static int width = 1200;
         public static int height = 700;
 
-        private static float _resistance = 0.0010f; //usually 0.05f
+        private static float _resistance = 0.0020f; //usually 0.05f
 
         private static float _maxVel = 50f;
 
