@@ -72,6 +72,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Cue.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="SettingsMenu.cs" />
     <Compile Include="Subscribe.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="Update.cs" />

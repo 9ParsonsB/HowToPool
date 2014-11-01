@@ -22,12 +22,14 @@ namespace HowToPool
         
         mainUpdate updateGame = new mainUpdate();
 
+        Menu menu = new Menu();
+
         List<Entity> Entities = new List<Entity>();
-        static List<Ball> balls = new List<Ball>();
+
+        Application application = new Application();
+      
 
         MouseCursor mouseHandler = new MouseCursor();
-
-        static Cue cue = new Cue();
 
         private List<DrawString> currentMenu;
         string tickState = Config.State;
@@ -123,7 +125,7 @@ namespace HowToPool
             Config.fov = 20;
 
             
-
+            
 
             base.Initialize();
             this.IsMouseVisible = true;
@@ -144,24 +146,42 @@ namespace HowToPool
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
 
-            List<Texture2D> textures = renderer.ContentLoad(Entities, balls,cue, Content);
+            //Note : All drawstrings will be in a list corrosponding to what part of the menu their in
+            DrawString test = new DrawString("play", Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
 
-            blueBall = textures[0];
-            redBall = textures[1]; 
-            whiteBall = textures[2];
+
+            List<DrawString> _MenuStrings = new List<DrawString>();
+
+            _MenuStrings.Add(new DrawString("play", Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
+            _MenuStrings.Add(new DrawString("settings", Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
+            _MenuStrings.Add(new DrawString("quit", Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
+
+
+
+            List<DrawString> _SettingsMenuStrings = new List<DrawString>();
+
+            _SettingsMenuStrings.Add(new DrawString("sound", Font1, "Sound: " + Config.soundEnabled, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2))));
+            _SettingsMenuStrings.Add(new DrawString("fps", Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 20)));
+            _SettingsMenuStrings.Add(new DrawString("fov", Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
+            _SettingsMenuStrings.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
+
+            //Create menu
+            menu = new Menu(_MenuStrings,_SettingsMenuStrings);
+
+            application.ContentLoad(renderer,Entities,Content);
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
 
             Viewport viewport = graphics.GraphicsDevice.Viewport;
 
-            Menu.mainMenu.Add(new DrawString("play",Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
+            /*Menu.mainMenu.Add(new DrawString("play",Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
             Menu.mainMenu.Add(new DrawString("settings",Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
             Menu.mainMenu.Add(new DrawString("quit",Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
 
             Menu.settingsMenu.Add(new DrawString("sound",Font1, "Sound: " + Config.soundEnabled,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2))));
             Menu.settingsMenu.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
             Menu.settingsMenu.Add(new DrawString("fps",Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+20)));
-            Menu.settingsMenu.Add(new DrawString("fov",Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+40)));
+            Menu.settingsMenu.Add(new DrawString("fov",Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+40)));*/
         }
 
 
@@ -183,66 +203,9 @@ namespace HowToPool
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
 
-        private void StartGame()
-        {
-            
+       
 
-           /* for (int i = 0; i < 100; i++)
-            {
-                float a = (float)rnd.Next(minv, maxv);
-                float b = (float)rnd.Next(minv, maxv);
-                float x = (float)rnd.Next(0, graphics.PreferredBackBufferWidth);
-                float y = (float)rnd.Next(0, graphics.PreferredBackBufferHeight);
-                if (i % 2 == 0)
-                {
-                    balls.Add(new Ball(redBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
-                }
-                else
-                {
-                    balls.Add(new Ball(blueBall, new Vector3(0, 0, 0), 13, 100, new Vector2(a, b), new Vector2(x, y)));
-                }
-
-            }*/
-
-            cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
-
-            float mass = 50;
-
-            //Creates all balls for game
-
-            //Need to be first(White ball)
-            balls.Add(new Ball(whiteBall, 12.5f, mass,new Vector2(500, Config.height / 2)));
-
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3), Config.height / 2 )));
-
-            balls.Add(new Ball(redBall,12.5f, mass,new Vector2(Config.width - (Config.width / 3) + 29, (Config.height / 2) - 14 )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 29, (Config.height / 2) + 14 )));
-
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) - 27 )));
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 57, (Config.height / 2) + 27 )));
-
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) - 14 )));
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) - 41)));
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) + 14 )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 85, (Config.height / 2) + 41 )));
-
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) - 27 )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) - 55 )));
-            balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 27 )));
-            balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 55 )));
-
-        }
-
-        public static void clearBalls()
-        {
-            foreach (Ball b in balls.ToArray())
-            {
-                balls.Remove(b);
-            }
-
-        }
+       
 
        
         protected override void Update(GameTime gameTime)
@@ -254,20 +217,20 @@ namespace HowToPool
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if (tickState == "quit")
+            if (Config.State == "quit")
             {
                 Exit();
             }
-            if (tickState == "startSPGame")
+            
+            /*if (tickState == "startSPGame")
             {
                 StartGame();
                 Config.State = "SPGame";
-            }
+            }*/
             
-            // TODO: Add your update logic here
-
-            //Entities[0].update(Entities, 0);
-            Menu.updateMenu(tickState,tickSelected);
+            
+           
+            menu.UpdateMenus(application);
             
             /*if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
                 balls[0].pos.X = 100;
@@ -330,7 +293,7 @@ namespace HowToPool
                 rWasUp = true;
             }
 
-            updateGame.run(Entities,balls,cue,mouseHandler,gameTime);
+            updateGame.run(Entities,application.balls,application.cue,mouseHandler,gameTime);
            
             
 
@@ -353,14 +316,17 @@ namespace HowToPool
             //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
             spriteBatch.DrawString(Font1, "Resistance (" + Config.resistance.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
-            spriteBatch.DrawString(Font1, "Selected: " + Config.Selected.ToString(), new Vector2(0, 60), Color.Black);
-            spriteBatch.DrawString(Font1, "State: " + tickState + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
+            spriteBatch.DrawString(Font1, "Selected: " + menu.selected.ToString(), new Vector2(0, 60), Color.Black);
+            spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
             
             
             
             //tickState
-            Menu.drawMenu(tickState, spriteBatch);
-            renderer.run(Entities,balls,cue,gameTime,spriteBatch);
+            menu.DrawMenus(spriteBatch);
+
+
+
+            renderer.run(Entities,application.balls,application.cue,gameTime,spriteBatch);
 
             spriteBatch.End();
 

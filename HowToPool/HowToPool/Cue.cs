@@ -31,6 +31,8 @@ namespace HowToPool
 
         public float rotAmount = 0.02f;
 
+        public bool drawCue = true;
+
         //Bounding box for Cue
         public BoundingBox box;
 
@@ -118,7 +120,7 @@ namespace HowToPool
 
             resistance();
 
-            if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
+            /*if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
             {
                 this.vel.X *= -1;
                 if (this.pos.X < 0)
@@ -145,7 +147,7 @@ namespace HowToPool
                     this.pos.Y = 699 - this.texture.Height;
                 }
 
-            }
+            }*/
 
 
 

@@ -28,7 +28,10 @@ namespace HowToPool
                 balls[i].draw(spriteBatch);
             }
 
-            cue.draw(spriteBatch);
+            if (cue.drawCue == true)
+            {
+                cue.draw(spriteBatch);
+            }
         }
 
 
