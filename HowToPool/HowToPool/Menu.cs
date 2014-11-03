@@ -135,7 +135,7 @@ namespace HowToPool
 
 
 
-            if (selected < SettingsMenuStrings.Count - 1)
+            if (selected < (SettingsMenuStrings.Count - 1))
             {
 
                 //Check if user attempts to move down menu
@@ -144,8 +144,10 @@ namespace HowToPool
                     selected += 1;
 
                     changeSelectDown = false;
-
+                    if (selected >= MenuStrings.Count) 
+                        selected = MenuStrings.Count - 1;
                     //Sets current selection to red
+                    
                     MenuStrings[selected].TextColor = Color.Red;
 
                     //Sets old selection back to default
