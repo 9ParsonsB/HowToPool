@@ -68,6 +68,7 @@ namespace HowToPool
                     changeSelectUp = true;
                 }
 
+
             }
 
             if (settingSelected < SettingsMenuStrings.Count - 1)
@@ -94,6 +95,15 @@ namespace HowToPool
                     changeSelectDown = true;
                 }
             }
+
+
+            //Allows user to return to main menu from the settings menu
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Config.State = "main";
+
+            }
+
 
         }
 

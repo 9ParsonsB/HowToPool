@@ -14,20 +14,20 @@ namespace HowToPool
 {
     class Ball : Entity
     {
+        public float radius;
         
 
         public BoundingSphere sphere;
 
         //Only texture,mass,radius and position have to be specified when creating object. The rest are set by default
-        public Ball(Texture2D _texture, float radius, float _mass,Vector2 _pos,Vector2 _vel = default(Vector2), Vector3 center = default(Vector3))
+        public Ball(Texture2D _texture, float _radius, float _mass,Vector2 _pos,Vector2 _vel = default(Vector2), Vector3 center = default(Vector3))
             : base(_texture, _vel, _pos)
         {
-            sphere = new BoundingSphere(new Vector3(_pos.X,_pos.Y,0), radius);
+            sphere = new BoundingSphere(new Vector3(_pos.X + _radius,_pos.Y + _radius,0), _radius);
 
             mass = _mass;
 
-            
-
+            radius = _radius;
         }
 
         public void ballUpdate(List<Ball> balls, int i, GameTime gameTime)
@@ -116,7 +116,7 @@ namespace HowToPool
 
             }
 
-            this.sphere.Center = new Vector3(this.pos.X, this.pos.Y, 0);
+            this.sphere.Center = new Vector3(this.pos.X + this.radius, this.pos.Y + this.radius, 0);
 
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;

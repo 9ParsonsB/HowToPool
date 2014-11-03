@@ -20,6 +20,7 @@ namespace HowToPool
         public string colour;
         public bool isTurn;
 
+      
 
     }
 
@@ -63,6 +64,7 @@ namespace HowToPool
         public Texture2D texture;
 
         public float mass;
+
 
         public Entity(Texture2D _texture,Vector2 _vel,Vector2 _pos,float _angle = 0,float _mass = 30) 
         {

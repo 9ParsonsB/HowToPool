@@ -318,7 +318,7 @@ namespace HowToPool
             spriteBatch.DrawString(Font1, "Resistance (" + Config.resistance.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
             spriteBatch.DrawString(Font1, "Selected: " + menu.selected.ToString(), new Vector2(0, 60), Color.Black);
             spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
-            
+            //spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Application.cue + ")", new Vector2(0, 100), Color.Black);
             
             
             //tickState

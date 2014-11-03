@@ -19,6 +19,8 @@ namespace HowToPool
         //Prevents power being from being too high
         public Vector2 maxDistance;
 
+        public Vector2 cuePullSpeed = new Vector2(5,0);
+
         public Vector2 defaultPos;
 
         public Vector2 power;
@@ -29,9 +31,11 @@ namespace HowToPool
 
         public int maxPower;
 
-        public float rotAmount = 0.02f;
+        public float rotAmount = -0.02f;
 
         public bool drawCue = true;
+
+
 
         //Bounding box for Cue
         public BoundingBox box;
@@ -41,11 +45,13 @@ namespace HowToPool
         {
             maxDistance = new Vector2(80);
 
-            maxPower = 10;
+            maxPower = 20;
 
             this.angle = 0;
 
             defaultPos = _pos;
+
+            
 
             //Sets bounding box of cue relative to where it is drawn
             box = new BoundingBox(new Vector3(_pos.X-50,_pos.Y-50,0),new Vector3(_pos.X + texture.Width + 50,_pos.Y + texture.Height + 50,0));
@@ -59,25 +65,20 @@ namespace HowToPool
         public void allignCue(List<Ball> balls) 
         {
 
+            //If the white ball is not moving
             if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
             {
-                this.defaultPos.X = balls[0].pos.X - texture.Width - 50;
-                this.defaultPos.Y = balls[0].pos.Y + texture.Height;
+                //Get top right position
+                Vector2 temp = new Vector2(this.box.Min.X + (this.box.Max.X - this.box.Min.X), this.box.Min.Y + (this.box.Max.Y - this.box.Min.Y));
 
+                
+              
                 
                
 
             }
 
-           
-
-            //If cue not selected
-
-            if (this.selected == false)
-            {
-                //Set new default position
-                pos = defaultPos;
-            }
+            
 
         }
 
@@ -89,21 +90,11 @@ namespace HowToPool
 
         public void update(GameTime gameTime, MouseCursor MouseObj, List<Ball> balls)
         {
-            //this.pos = this.pos + this.vel;
 
             allignCue(balls);
-            
-           
-            //If player releases cue with power
-            if (released == true && power.X != 0)
-            {
-                //this.pos += this.vel;
-                balls[0].vel.X += power.X;
-                power.X  = 0;
 
-
-            }
-
+            //Output angle
+            Console.WriteLine(this.angle);
 
             double test = (Math.Pow(texture.Width, 2) + Math.Pow(texture.Width, 2)) - (2 * (texture.Width * texture.Width) * Math.Cos(this.angle));
 
@@ -111,47 +102,20 @@ namespace HowToPool
 
             float t = (float)test;
 
+            
+
             //Update bounding box to current pos of cue
             //this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + t + 50, 0));
 
-            this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + t + 50, 0));
-
-            
-
-            resistance();
-
-            /*if (this.pos.X < 0 || this.pos.X > 1200 - this.texture.Width)
-            {
-                this.vel.X *= -1;
-                if (this.pos.X < 0)
-                {
-                    this.pos.X = 1;
-                }
-                else
-                {
-                    this.pos.X = 1199 - this.texture.Width;
-                }
-
-            }
-
-            if (this.pos.Y < 0 || this.pos.Y > 700 - this.texture.Height)
-            {
-                this.vel.Y *= -1;
-
-                if (this.pos.Y < 0)
-                {
-                    this.pos.Y = 1;
-                }
-                else
-                {
-                    this.pos.Y = 699 - this.texture.Height;
-                }
-
-            }*/
 
 
+            this.box = new BoundingBox(new Vector3(this.pos.X, this.pos.Y, 0), new Vector3(this.pos.X + this.texture.Width, this.pos.Y + t, 0));
+            Console.WriteLine(this.box.Min + " " + this.box.Max);
+   
+            //resistance();
 
-            BoundingSphere sphere = new BoundingSphere(new Vector3(this.pos.X + this.texture.Width,this.pos.Y + this.texture.Height / 2,0),10);
+  
+           
 
           
 
@@ -159,14 +123,14 @@ namespace HowToPool
             {
                 this.angle -= rotAmount;
 
-                this.pos = RotateAboutOrigin(this.pos, balls[0].pos, this.angle);
+                this.pos = RotateAboutOrigin(this.pos, new Vector2(balls[0].sphere.Center.X,balls[0].sphere.Center.Y), this.angle);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 this.angle += rotAmount;
 
-                this.pos = RotateAboutOrigin(this.pos, balls[0].pos, this.angle);
+                this.pos = RotateAboutOrigin(this.pos, new Vector2(balls[0].sphere.Center.X,balls[0].sphere.Center.Y), this.angle);
             }
 
             
@@ -175,27 +139,32 @@ namespace HowToPool
             //If mouse cursor is over cue bounding box
             if (MouseObj.MouseOver(this.box)) 
             {
-              
 
                 //If user clicks on cue
                  if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
                  {
+                    
+                     
                      //Cue is now selected
                      selected = true;
-
+                     
                      //Cue isn't released
                      released = false;
-                     
-                     //Limits cues distamce from default
-                     if ((defaultPos.X - this.pos.X) < maxDistance.X)
+
+                     if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
                      {
-                         this.pos.X -= 5;
 
-                         if (this.power.X < maxPower) 
+                         //Limits cues distamce from default
+                         if ((defaultPos.X - this.pos.X) < maxDistance.X)
                          {
-                             this.power.X += 1;
-                         }
+                             this.pos -= cuePullSpeed;
 
+                             if (this.power.X < maxPower)
+                             {
+                                 this.power.X += 1;
+                             }
+
+                         }
                      }
 
                      
@@ -205,14 +174,15 @@ namespace HowToPool
             }
 
             //If cue released after cue has been selected
-            if (MouseObj.mouseState.LeftButton == ButtonState.Released && selected == true)
+            if (MouseObj.mouseState.LeftButton == ButtonState.Released && selected == true && balls[0].vel.X == 0 && balls[0].vel.Y == 0)
             {
                 released = true;
+                selected = false;
 
                 balls[0].vel.X += power.X;
                 balls[0].vel.Y += power.Y;
 
-                this.pos = defaultPos;
+               
             }
            
         }

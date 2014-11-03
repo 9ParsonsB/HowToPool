@@ -45,7 +45,7 @@ namespace HowToPool
 
              }*/
 
-            cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(100, 100), 0);
+            
 
             float mass = 50;
 
@@ -73,6 +73,8 @@ namespace HowToPool
             balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) - 55)));
             balls.Add(new Ball(blueBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 27)));
             balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 55)));
+
+            cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(500,500), 0);
 
         }
 
