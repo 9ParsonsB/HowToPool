@@ -36,6 +36,7 @@ namespace HowToPool
             if (cue.drawCue == true)
             {
                 cue.draw(spriteBatch);
+                
             }
 
             
