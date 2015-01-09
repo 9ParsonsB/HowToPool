@@ -71,9 +71,24 @@ namespace HowToPool
                 //Get top right position
                 //Vector2 temp = new Vector2(this.box.Min.X + (this.box.Max.X - this.box.Min.X), this.box.Min.Y + (this.box.Max.Y - this.box.Min.Y));
 
+                var wBall = balls[0].pos;
+
+                double Rx = Mouse.GetState().X - wBall.X;
+                double Ry = -(Mouse.GetState().Y - wBall.Y);
+
+                double Rh = Math.Sqrt(Math.Pow(Ry, 2) + Math.Pow(Rx, 2)); // Pythagoras
+
+                double angle = Math.Acos( ( ( Math.Pow(Ry, 2) + Math.Pow(Rh, 2) ) - Math.Pow(Rx, 2) ) / ( 2 * ( Rh * Ry ) ) );
+
+                Console.WriteLine("Cue angle in radians: {0}", angle);
+                double temp = angle * (180.0 / Math.PI);
+                Console.WriteLine("Cue andle in degrees: {0}", temp);
+
+                this.angle = -(float)angle;
+
             }
 
-            
+            //return angle;
 
         }
 
