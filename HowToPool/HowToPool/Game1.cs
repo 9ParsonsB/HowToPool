@@ -31,6 +31,8 @@ namespace HowToPool
 
         MouseCursor mouseHandler = new MouseCursor();
 
+        PoolTable table = new PoolTable();
+
         private List<DrawString> currentMenu;
         string tickState = Config.State;
         int tickSelected = Config.Selected;
@@ -88,6 +90,8 @@ namespace HowToPool
         Renderer renderer = new Renderer();
 
         SpriteFont Font1;
+        SpriteFont TitleFont;
+
         Vector2 FontPos;
         
 
@@ -145,13 +149,19 @@ namespace HowToPool
 
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
+            TitleFont = Content.Load<SpriteFont>("TitleFont");
 
             //Note : All drawstrings will be in a list corrosponding to what part of the menu their in
             DrawString test = new DrawString("play", Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
 
-
+            //List of strings for menu
             List<DrawString> _MenuStrings = new List<DrawString>();
 
+
+            //Sets up title that is displayed to user
+            DrawString TitleString = new DrawString("title", Font1, "How to pool", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) - 40));
+
+            //Adds menu strings that the user can interact with
             _MenuStrings.Add(new DrawString("play", Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2)));
             _MenuStrings.Add(new DrawString("settings", Font1, "Settings", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
             _MenuStrings.Add(new DrawString("quit", Font1, "Quit", new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 80)));
@@ -160,17 +170,21 @@ namespace HowToPool
 
             List<DrawString> _SettingsMenuStrings = new List<DrawString>();
 
+            //Adds menu strings to list for settings menu
             _SettingsMenuStrings.Add(new DrawString("sound", Font1, "Sound: " + Config.soundEnabled, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2))));
             _SettingsMenuStrings.Add(new DrawString("fps", Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 20)));
             _SettingsMenuStrings.Add(new DrawString("fov", Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
             _SettingsMenuStrings.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
 
             //Create menu
-            menu = new Menu(_MenuStrings,_SettingsMenuStrings);
+            menu = new Menu(TitleString,_MenuStrings,_SettingsMenuStrings);
 
-            application.ContentLoad(renderer,Entities,Content);
+
+
+            application.ContentLoad(renderer,Entities,table,Content);
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+
 
             Viewport viewport = graphics.GraphicsDevice.Viewport;
 
@@ -319,14 +333,16 @@ namespace HowToPool
             spriteBatch.DrawString(Font1, "Selected: " + menu.selected.ToString(), new Vector2(0, 60), Color.Black);
             spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
             //spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Application.cue + ")", new Vector2(0, 100), Color.Black);
-            
-            
-            //tickState
+
+
+            renderer.run(Entities, application.balls, application.cue, table, gameTime, spriteBatch);
+
+           
             menu.DrawMenus(spriteBatch);
 
 
 
-            renderer.run(Entities,application.balls,application.cue,gameTime,spriteBatch);
+            
 
             spriteBatch.End();
 

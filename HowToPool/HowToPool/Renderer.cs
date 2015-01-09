@@ -14,7 +14,7 @@ namespace HowToPool
 {
     class Renderer
     {
-        public void run(List<Entity> Entities,List<Ball> balls,Cue cue,GameTime gameTime,SpriteBatch spriteBatch) 
+        public void run(List<Entity> Entities,List<Ball> balls,Cue cue,PoolTable table,GameTime gameTime,SpriteBatch spriteBatch) 
         {
             //Draws all entities
             /*for (int i = 0; i < Entities.Count; i++)
@@ -22,6 +22,11 @@ namespace HowToPool
                 Entities[i].draw(spriteBatch);
             
             }*/
+
+            if(table.drawTable == true)
+            {
+                table.draw(spriteBatch);
+            }
 
             for (int i = 0; i < balls.Count; i++) 
             {
@@ -32,10 +37,14 @@ namespace HowToPool
             {
                 cue.draw(spriteBatch);
             }
+
+            
+
+
         }
 
 
-        public List<Texture2D> ContentLoad(List<Entity> Entities,List<Ball> balls,Cue cue,ContentManager content) 
+        public List<Texture2D> ContentLoad(List<Entity> Entities,List<Ball> balls,Cue cue,PoolTable table,ContentManager content) 
         {
             //Loads all entities textures so they can be drawn
             List<Texture2D> textures = new List<Texture2D>();
@@ -45,6 +54,9 @@ namespace HowToPool
             textures.Add(content.Load<Texture2D>("redBall"));
 
             textures.Add(content.Load<Texture2D>("whiteBall"));
+
+            table.texture = content.Load<Texture2D>("table");
+            float a = table.texture.Width;
 
             cue.texture = content.Load<Texture2D>("cue");
             

@@ -19,9 +19,10 @@ namespace HowToPool
 
         List<DrawString> MenuStrings = new List<DrawString>();
 
+        DrawString TitleString;
 
         //Constructor for menu. Currently takes array of DrawStrings for each menu set
-        public Menu(List<DrawString> _MenuStrings,List<DrawString> _SettingsMenuStrings) : base(_SettingsMenuStrings)
+        public Menu(DrawString _TitleString,List<DrawString> _MenuStrings,List<DrawString> _SettingsMenuStrings) : base(_SettingsMenuStrings)
         {
             //Sets main menu draw strings
             MenuStrings = _MenuStrings;
@@ -32,6 +33,7 @@ namespace HowToPool
 
             MenuStrings[selected].TextColor = Color.Red;
 
+            TitleString = _TitleString;
            
         }
 
@@ -97,6 +99,9 @@ namespace HowToPool
             {
                 spriteBatch.DrawString(setting.Font, setting.Text, setting.Position, setting.TextColor);
             }
+
+            spriteBatch.DrawString(TitleString.Font, TitleString.Text, TitleString.Position, TitleString.TextColor);
+
         }
 
         //Updates main menu

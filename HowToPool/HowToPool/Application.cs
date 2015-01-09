@@ -22,7 +22,7 @@ namespace HowToPool
         public Cue cue = new Cue();
         public List<Ball> balls = new List<Ball>();
 
-        public Application() {}
+        public Application() { }
 
         public void StartGame()
         {
@@ -76,6 +76,8 @@ namespace HowToPool
 
             cue = new Cue(cue.texture, new Vector2(0, 0), new Vector2(500,500), 0);
 
+            cue.drawCue = true;
+
         }
 
         public void clearBalls()
@@ -89,13 +91,18 @@ namespace HowToPool
 
         }
 
-        public void ContentLoad(Renderer renderer,List<Entity> Entities, ContentManager Content) 
+        public void ContentLoad(Renderer renderer,List<Entity> Entities,PoolTable table,ContentManager Content) 
         {
-            List<Texture2D> textures = renderer.ContentLoad(Entities, balls, cue, Content);
+            List<Texture2D> textures = renderer.ContentLoad(Entities, balls, cue,table, Content);
 
             blueBall = textures[0];
             redBall = textures[1];
             whiteBall = textures[2];
+
+            table.pos = new Vector2(0, 0);
+            table.drawTable = true;
+
+
         }
 
 

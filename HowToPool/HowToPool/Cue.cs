@@ -33,7 +33,7 @@ namespace HowToPool
 
         public float rotAmount = -0.02f;
 
-        public bool drawCue = true;
+        public bool drawCue = false;
 
 
 
@@ -43,7 +43,7 @@ namespace HowToPool
         //Cue constructor
         public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
         {
-            maxDistance = new Vector2(80);
+            maxDistance = new Vector2(100);
 
             maxPower = 20;
 
@@ -69,12 +69,7 @@ namespace HowToPool
             if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
             {
                 //Get top right position
-                Vector2 temp = new Vector2(this.box.Min.X + (this.box.Max.X - this.box.Min.X), this.box.Min.Y + (this.box.Max.Y - this.box.Min.Y));
-
-                
-              
-                
-               
+                //Vector2 temp = new Vector2(this.box.Min.X + (this.box.Max.X - this.box.Min.X), this.box.Min.Y + (this.box.Max.Y - this.box.Min.Y));
 
             }
 
@@ -109,8 +104,8 @@ namespace HowToPool
 
 
 
-            this.box = new BoundingBox(new Vector3(this.pos.X, this.pos.Y, 0), new Vector3(this.pos.X + this.texture.Width, this.pos.Y + t, 0));
-            Console.WriteLine(this.box.Min + " " + this.box.Max);
+            this.box = new BoundingBox(new Vector3(this.pos.X, this.pos.Y, 0), new Vector3(this.pos.X + this.texture.Width, this.pos.Y + this.texture.Height, 0));
+            //Console.WriteLine(this.box.Min + " " + this.box.Max);
    
             //resistance();
 
@@ -119,7 +114,7 @@ namespace HowToPool
 
           
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Q)) 
+           /*if (Keyboard.GetState().IsKeyDown(Keys.Q)) 
             {
                 this.angle -= rotAmount;
 
@@ -131,7 +126,7 @@ namespace HowToPool
                 this.angle += rotAmount;
 
                 this.pos = RotateAboutOrigin(this.pos, new Vector2(balls[0].sphere.Center.X,balls[0].sphere.Center.Y), this.angle);
-            }
+            }//*/
 
             
 
@@ -140,9 +135,11 @@ namespace HowToPool
             if (MouseObj.MouseOver(this.box)) 
             {
 
+                Console.WriteLine("Over cue.");
+
                 //If user clicks on cue
-                 if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
-                 {
+                if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
+                {
                     
                      
                      //Cue is now selected
@@ -162,6 +159,7 @@ namespace HowToPool
                              if (this.power.X < maxPower)
                              {
                                  this.power.X += 1;
+                                 
                              }
 
                          }
