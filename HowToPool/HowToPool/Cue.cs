@@ -71,21 +71,36 @@ namespace HowToPool
                 //Get top right position
                 //Vector2 temp = new Vector2(this.box.Min.X + (this.box.Max.X - this.box.Min.X), this.box.Min.Y + (this.box.Max.Y - this.box.Min.Y));
 
-                var wBall = balls[0].pos;
+                var wBall = balls[0];
+                Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y); 
 
-                double Rx = Mouse.GetState().X - wBall.X;
-                double Ry = -(Mouse.GetState().Y - wBall.Y);
+                Vector2 dPos = wBall.pos - mousePosition;
+
+                this.angle = (float)Math.Atan2(-dPos.Y, -dPos.X);
+
+                Vector2 ratio = wBall.pos / mousePosition;
+
+                Console.WriteLine("angle: {0}", this.angle);
+
+                this.pos = wBall.pos - new Vector2(this.texture.Width + 5, 0);
+
+                double degereese = angle * (180.0 / Math.PI);
+
+                double cueAngle = 180.0 - (degereese + 90.0);
+
+                cueAngle = Math.PI * cueAngle / 180.0;
+
+                Console.WriteLine("Unknown angle: {0}", cueAngle);
+
+
+                /*double Rx = Mouse.GetState().X - wBall.pos.X;
+                double Ry = -(Mouse.GetState().Y - wBall.pos.Y);
 
                 double Rh = Math.Sqrt(Math.Pow(Ry, 2) + Math.Pow(Rx, 2)); // Pythagoras
 
                 double angle = Math.Acos( ( ( Math.Pow(Ry, 2) + Math.Pow(Rh, 2) ) - Math.Pow(Rx, 2) ) / ( 2 * ( Rh * Ry ) ) );
 
-                Console.WriteLine("Cue angle in radians: {0}", angle);
-                double temp = angle * (180.0 / Math.PI);
-                Console.WriteLine("Cue andle in degrees: {0}", temp);
-
-                this.angle = -(float)angle;
-
+                Console.WriteLine("Ratio (cosine thing): {0}", angle);*/
             }
 
             //return angle;
@@ -104,7 +119,7 @@ namespace HowToPool
             allignCue(balls);
 
             //Output angle
-            Console.WriteLine(this.angle);
+            //Console.WriteLine(this.angle);
 
             double test = (Math.Pow(texture.Width, 2) + Math.Pow(texture.Width, 2)) - (2 * (texture.Width * texture.Width) * Math.Cos(this.angle));
 
