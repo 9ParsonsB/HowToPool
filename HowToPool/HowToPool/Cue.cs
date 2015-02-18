@@ -41,7 +41,7 @@ namespace HowToPool
         public BoundingBox box;
 
         //Cue constructor
-        public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
+        public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,Ball ball,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
         {
             maxDistance = new Vector2(100);
 
@@ -51,12 +51,20 @@ namespace HowToPool
 
             defaultPos = _pos;
 
-            
+            pos = _pos;
 
             //Sets bounding box of cue relative to where it is drawn
             box = new BoundingBox(new Vector3(_pos.X-50,_pos.Y-50,0),new Vector3(_pos.X + texture.Width + 50,_pos.Y + texture.Height + 50,0));
 
-        }
+            Console.WriteLine(pos);
+
+            
+            origin = new Vector2(400,0);
+
+
+            Console.WriteLine(origin);
+
+      }
 
         //Default constructor for cue
         public Cue() {}
@@ -80,7 +88,7 @@ namespace HowToPool
 
                 Vector2 ratio = wBall.pos / mousePosition;
 
-                Console.WriteLine("angle: {0}", this.angle);
+                //Console.WriteLine("angle: {0}", this.angle);
 
                 this.pos = wBall.pos - new Vector2(this.texture.Width + 5, 0);
 
@@ -90,7 +98,7 @@ namespace HowToPool
 
                 cueAngle = Math.PI * cueAngle / 180.0;
 
-                Console.WriteLine("Unknown angle: {0}", cueAngle);
+                //Console.WriteLine("Unknown angle: {0}", cueAngle);
 
 
                 /*double Rx = Mouse.GetState().X - wBall.pos.X;
@@ -115,9 +123,9 @@ namespace HowToPool
 
         public void update(GameTime gameTime, MouseCursor MouseObj, List<Ball> balls)
         {
-
+       
             allignCue(balls);
-
+      
             //Output angle
             //Console.WriteLine(this.angle);
 
@@ -139,25 +147,14 @@ namespace HowToPool
    
             //resistance();
 
-  
-           
 
-          
 
-           /*if (Keyboard.GetState().IsKeyDown(Keys.Q)) 
-            {
-                this.angle -= rotAmount;
 
-                this.pos = RotateAboutOrigin(this.pos, new Vector2(balls[0].sphere.Center.X,balls[0].sphere.Center.Y), this.angle);
-            }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                this.angle += rotAmount;
 
-                this.pos = RotateAboutOrigin(this.pos, new Vector2(balls[0].sphere.Center.X,balls[0].sphere.Center.Y), this.angle);
-            }//*/
-
+         
+               
+        
             
 
 
