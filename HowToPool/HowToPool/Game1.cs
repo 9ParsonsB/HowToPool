@@ -231,7 +231,8 @@ namespace HowToPool
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            
+            Config.delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (Config.State == "quit")
             {
                 Exit();

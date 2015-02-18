@@ -17,6 +17,8 @@ namespace HowToPool
         public static bool SALE { get; set; }
         public static bool soundEnabled { get; set; }
 
+        public static float delta = 0;
+
         //public static float g = (float)6.673 * (float)((Math.Pow(10, -11)));
 
         public static List<Ball> balls { get; set; }

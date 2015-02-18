@@ -75,7 +75,7 @@ namespace HowToPool
             balls.Add(new Ball(redBall, 12.5f, mass, new Vector2(Config.width - (Config.width / 3) + 113, (Config.height / 2) + 55)));
 
       
-            cue = new Cue(cue.texture,new Vector2(0,0),new Vector2(balls[0].pos.X - cue.texture.Width, balls[0].pos.Y + cue.texture.Height),balls[0], 0);
+            cue = new Cue(cue.texture,new Vector2(0,0),new Vector2(balls[0].pos.X + balls[0].texture.Width / 2 , balls[0].pos.Y + balls[0].texture.Height / 2),balls[0], 0);
 
             cue.drawCue = true;
 

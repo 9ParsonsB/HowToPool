@@ -19,31 +19,32 @@ namespace HowToPool
         //Prevents power being from being too high
         public Vector2 maxDistance;
 
-        public Vector2 cuePullSpeed = new Vector2(5,0);
+        public Vector2 cuePullSpeed = new Vector2(100);
 
         public Vector2 defaultPos;
 
         public Vector2 power;
+        public int maxPower;
 
         public bool released = true;
-
         public bool selected = false;
-
-        public int maxPower;
 
         public float rotAmount = -0.02f;
 
         public bool drawCue = false;
 
-
+        //Wether the cue ball has just stopped moving
+        public bool hasStopped = false;
 
         //Bounding box for Cue
         public BoundingBox box;
 
+        public int degrees = 0;
+
         //Cue constructor
         public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,Ball ball,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
         {
-            maxDistance = new Vector2(100);
+            maxDistance = new Vector2(500);
 
             maxPower = 20;
 
@@ -55,22 +56,15 @@ namespace HowToPool
 
             //Sets bounding box of cue relative to where it is drawn
             box = new BoundingBox(new Vector3(_pos.X-50,_pos.Y-50,0),new Vector3(_pos.X + texture.Width + 50,_pos.Y + texture.Height + 50,0));
-
-            Console.WriteLine(pos);
-
             
-            origin = new Vector2(400,0);
-
-
-            Console.WriteLine(origin);
+            origin = new Vector2(texture.Width + 20,texture.Height / 2);
 
       }
 
         //Default constructor for cue
         public Cue() {}
 
-
-        public void allignCue(List<Ball> balls) 
+        public void rotateCue(List<Ball> balls) 
         {
 
             //If the white ball is not moving
@@ -88,9 +82,7 @@ namespace HowToPool
 
                 Vector2 ratio = wBall.pos / mousePosition;
 
-                //Console.WriteLine("angle: {0}", this.angle);
-
-                this.pos = wBall.pos - new Vector2(this.texture.Width + 5, 0);
+                //this.pos = wBall.pos - new Vector2(this.texture.Width + 5, 0);
 
                 double degereese = angle * (180.0 / Math.PI);
 
@@ -98,21 +90,8 @@ namespace HowToPool
 
                 cueAngle = Math.PI * cueAngle / 180.0;
 
-                //Console.WriteLine("Unknown angle: {0}", cueAngle);
-
-
-                /*double Rx = Mouse.GetState().X - wBall.pos.X;
-                double Ry = -(Mouse.GetState().Y - wBall.pos.Y);
-
-                double Rh = Math.Sqrt(Math.Pow(Ry, 2) + Math.Pow(Rx, 2)); // Pythagoras
-
-                double angle = Math.Acos( ( ( Math.Pow(Ry, 2) + Math.Pow(Rh, 2) ) - Math.Pow(Rx, 2) ) / ( 2 * ( Rh * Ry ) ) );
-
-                Console.WriteLine("Ratio (cosine thing): {0}", angle);*/
             }
-
-            //return angle;
-
+         
         }
 
         public Vector2 RotateAboutOrigin(Vector2 point, Vector2 origin, float rotation)
@@ -123,96 +102,152 @@ namespace HowToPool
 
         public void update(GameTime gameTime, MouseCursor MouseObj, List<Ball> balls)
         {
-       
-            allignCue(balls);
-      
-            //Output angle
-            //Console.WriteLine(this.angle);
 
-            double test = (Math.Pow(texture.Width, 2) + Math.Pow(texture.Width, 2)) - (2 * (texture.Width * texture.Width) * Math.Cos(this.angle));
+            if (angle < 0)
+            {
+                degrees = (int)((6.28318531 - (angle * -1)) * 57.2957795);
+            }
+            else 
+            {
+                degrees = (int)(angle * 57.2957795);
+            }
 
-            test = Math.Sqrt(test);
+            //Console.WriteLine(degrees);
 
-            float t = (float)test;
+            if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
+            {
+                //Rotates cue based on mouse position whenever cue ball not moving
+                rotateCue(balls);
 
+                //If cue ball just stopped moving
+                if (!hasStopped)
+                {                   
+                    //Set pos to current pos of cue ball
+                    this.pos = new Vector2(balls[0].pos.X + balls[0].texture.Width / 2, balls[0].pos.Y + balls[0].texture.Height / 2);
+                    defaultPos = pos;
+
+                    hasStopped = true;
+                }
+            }
+            else
+            {
+                hasStopped = false;       
+            }
             
 
-            //Update bounding box to current pos of cue
-            //this.box = new BoundingBox(new Vector3(this.pos.X - 50, this.pos.Y - 50, 0), new Vector3(this.pos.X + this.texture.Width + 50, this.pos.Y + t + 50, 0));
+            //If user clicks on cue
+            if (MouseObj.mouseState.LeftButton == ButtonState.Pressed && !selected)
+            {                                      
+                //Cue is now selected
+                selected = true;
+                     
+                //Cue isn't released
+                released = false;            
+            }
+
+            if (selected) 
+            {
+                if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
+                {
+                    //If cue on left side of ball
+                    if (degrees < 90 || degrees < 360 && degrees > 270)
+                    {
+                        this.pos.X -= cuePullSpeed.X * Config.delta;
+
+                        if (this.power.X < maxPower)
+                        {
+                            this.power.X += 10 * Config.delta;
+                        }
+
+                        //Increase velocity of cue
+                        vel.X += power.X;
+                    }
+                    else                   
+                    {
+                        //If cue on right side of ball
+                        if (degrees > 90 && degrees < 270)
+                        {
+                            this.pos.X += cuePullSpeed.X * Config.delta;
+
+                            if (this.power.X < maxPower)
+                            {
+                                this.power.X -= 10 * Config.delta;
+                            }
+
+                            //Increase velocity of cue
+                            vel.X -= power.X;
+                        }
+                    }
 
 
+                    //If cue on top side of ball
+                    if (degrees > 0 && degrees < 180)
+                    {
+                        this.pos.Y -= cuePullSpeed.Y * Config.delta;
 
-            this.box = new BoundingBox(new Vector3(this.pos.X, this.pos.Y, 0), new Vector3(this.pos.X + this.texture.Width, this.pos.Y + this.texture.Height, 0));
-            //Console.WriteLine(this.box.Min + " " + this.box.Max);
-   
-            //resistance();
+                        if (this.power.Y < maxPower)
+                        {
+                            this.power.Y += 10 * Config.delta;
+                        }
 
+                        //Increase velocity of cue
+                        vel.Y += power.Y;
+                    }
+                    else
+                    {
+                        //If cue on bottom side of ball
+                        if (degrees > 180)
+                        {
+                            this.pos.Y += cuePullSpeed.Y * Config.delta;
 
+                            if (this.power.Y < maxPower)
+                            {
+                                this.power.Y -= 10 * Config.delta;
+                            }
 
-
-
+                            //Increase velocity of cue
+                            vel.Y -= power.Y;
+                        }
+                    }
 
          
-               
-        
-            
+                }         
 
-
-            //If mouse cursor is over cue bounding box
-            if (MouseObj.MouseOver(this.box)) 
-            {
-
-                Console.WriteLine("Over cue.");
-
-                //If user clicks on cue
-                if (MouseObj.mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    
-                     
-                     //Cue is now selected
-                     selected = true;
-                     
-                     //Cue isn't released
-                     released = false;
-
-                     if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
-                     {
-
-                         //Limits cues distamce from default
-                         if ((defaultPos.X - this.pos.X) < maxDistance.X)
-                         {
-                             this.pos -= cuePullSpeed;
-
-                             if (this.power.X < maxPower)
-                             {
-                                 this.power.X += 1;
-                                 
-                             }
-
-                         }
-                     }
-
-                     
-
-                 }
-     
             }
 
             //If cue released after cue has been selected
             if (MouseObj.mouseState.LeftButton == ButtonState.Released && selected == true && balls[0].vel.X == 0 && balls[0].vel.Y == 0)
-            {
+            {             
                 released = true;
-                selected = false;
-
-                balls[0].vel.X += power.X;
-                balls[0].vel.Y += power.Y;
-
-               
+                selected = false;                      
             }
            
-        }
-        
+            if(released)
+            {
+               
+                //If cue has not returned to ball
+                if (pos.X < defaultPos.X || pos.Y < defaultPos.Y)
+                {                 
+                    //Move cue back towards ball
+                    pos += vel * Config.delta;
+                }
+                else 
+                {
+                    Console.WriteLine(power);
 
+                    //Apply power to ball
+                    balls[0].vel.X += power.X;
+                    balls[0].vel.Y += power.Y;
+
+                    //Reset released
+                    released = false;
+
+                    vel = new Vector2(0,0);
+                    power = new Vector2(0,0);
+                }
+            }
+
+        }     
 
     }
 }
