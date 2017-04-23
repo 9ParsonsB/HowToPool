@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace HowToPool
 {
@@ -45,28 +39,20 @@ namespace HowToPool
         public Cue(Texture2D texture, Vector2 _vel, Vector2 _pos,Ball ball,float angle,float mass = 200) : base(texture, _vel, _pos,angle,mass) 
         {
             maxDistance = new Vector2(500);
-
             maxPower = 20;
-
-            this.angle = 0;
-
+            angle = 0;
             defaultPos = _pos;
-
             pos = _pos;
 
             //Sets bounding box of cue relative to where it is drawn
-            box = new BoundingBox(new Vector3(_pos.X-50,_pos.Y-50,0),new Vector3(_pos.X + texture.Width + 50,_pos.Y + texture.Height + 50,0));
-            
+            box = new BoundingBox(new Vector3(_pos.X-50,_pos.Y-50,0),new Vector3(_pos.X + texture.Width + 50,_pos.Y + texture.Height + 50,0));   
             origin = new Vector2(texture.Width + 20,texture.Height / 2);
+        }
 
-      }
-
-        //Default constructor for cue
         public Cue() {}
 
         public void rotateCue(List<Ball> balls) 
         {
-
             //If the white ball is not moving
             if (balls[0].vel.X == 0 && balls[0].vel.Y == 0)
             {
@@ -123,7 +109,7 @@ namespace HowToPool
                 if (!hasStopped)
                 {                   
                     //Set pos to current pos of cue ball
-                    this.pos = new Vector2(balls[0].pos.X + balls[0].texture.Width / 2, balls[0].pos.Y + balls[0].texture.Height / 2);
+                    pos = new Vector2(balls[0].pos.X + balls[0].texture.Width / 2, balls[0].pos.Y + balls[0].texture.Height / 2);
                     defaultPos = pos;
 
                     hasStopped = true;

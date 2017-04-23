@@ -1,25 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using System;
+using System.Collections.Generic;
 
 namespace HowToPool
 {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        
         mainUpdate updateGame = new mainUpdate();
 
         Menu menu = new Menu();
@@ -27,7 +21,7 @@ namespace HowToPool
         List<Entity> Entities = new List<Entity>();
 
         Application application = new Application();
-      
+
 
         MouseCursor mouseHandler = new MouseCursor();
 
@@ -37,7 +31,7 @@ namespace HowToPool
         string tickState = Config.State;
         int tickSelected = Config.Selected;
 
-        
+
         //Entity player = new Entity("Defenceship",new Vector2(0,0));
 
         public static Random rnd = new Random();
@@ -50,12 +44,12 @@ namespace HowToPool
 
         private bool rWasUp = true;
         private static bool pgWasUp = true;
-        
+
         static int maxv = 10;
         static int minv = maxv * -1;
 
         //Random numebrs(temporary but fun)
-       /* static float a = (float)rnd.Next(minv, maxv);
+        /*static float a = (float)rnd.Next(minv, maxv);
         static float b = (float)rnd.Next(minv, maxv);
 
         Ball redBall = new Ball("redBall", new Vector3(100,100,0),13,100,new Vector2(a, b),new Vector2(0,0));
@@ -72,7 +66,7 @@ namespace HowToPool
 
         static float a3 = (float)rnd.Next(minv, maxv);
         static float b3 = (float)rnd.Next(minv, maxv);
-        
+
         Ball blueBall2 = new Ball("blueBall", new Vector3(500, 150, 0), 13, 100, new Vector2(a3, b3), new Vector2(600, 150));
 
         static float a4 = (float)rnd.Next(minv, maxv);
@@ -85,21 +79,19 @@ namespace HowToPool
 
         Ball blueBall3 = new Ball("blueBall", new Vector3(500, 150, 0), 13, 100, new Vector2(a5, -b5), new Vector2(1200, 150));*/
 
-
-
         Renderer renderer = new Renderer();
 
         SpriteFont Font1;
         SpriteFont TitleFont;
 
         Vector2 FontPos;
-        
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-         
-            
+
+
             graphics.PreferredBackBufferWidth = Config.width;
             graphics.PreferredBackBufferHeight = Config.height;
 
@@ -107,9 +99,6 @@ namespace HowToPool
 
             Config.State = "mainMenu";
             Config.Selected = 0;
-
-            
-            
         }
 
         /// <summary>
@@ -128,11 +117,9 @@ namespace HowToPool
             Config.soundEnabled = true;
             Config.fov = 20;
 
-            
-            
+            IsMouseVisible = true;
 
             base.Initialize();
-            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -149,7 +136,7 @@ namespace HowToPool
 
             //Entities[0].texture = Content.Load<Texture2D>("Defenceship");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
-            TitleFont = Content.Load<SpriteFont>("TitleFont");
+            TitleFont = Content.Load<SpriteFont>("TitleFont1");
 
             //Note : All drawstrings will be in a list corrosponding to what part of the menu their in
             DrawString test = new DrawString("play", Font1, "Play", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2));
@@ -174,14 +161,14 @@ namespace HowToPool
             _SettingsMenuStrings.Add(new DrawString("sound", Font1, "Sound: " + Config.soundEnabled, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2))));
             _SettingsMenuStrings.Add(new DrawString("fps", Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 20)));
             _SettingsMenuStrings.Add(new DrawString("fov", Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 40)));
-            _SettingsMenuStrings.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
+            _SettingsMenuStrings.Add(new DrawString("sale", Font1, "Sale? " + Config.SALE, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2) + 60)));
 
             //Create menu
-            menu = new Menu(TitleString,_MenuStrings,_SettingsMenuStrings);
+            menu = new Menu(TitleString, _MenuStrings, _SettingsMenuStrings);
 
 
 
-            application.ContentLoad(renderer,Entities,table,Content);
+            application.ContentLoad(renderer, Entities, table, Content);
 
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
 
@@ -196,14 +183,13 @@ namespace HowToPool
             Menu.settingsMenu.Add(new DrawString("sale",Font1, "Sale? " + Config.SALE,new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+60)));
             Menu.settingsMenu.Add(new DrawString("fps",Font1, "FPS limit: " + Config.maxFPS, new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+20)));
             Menu.settingsMenu.Add(new DrawString("fov",Font1, "FOV " + (Config.fov + 50).ToString(), new Vector2(graphics.PreferredBackBufferWidth / 2, (graphics.PreferredBackBufferHeight / 2)+40)));*/
+
+            // TODO: use this.Content to load your game content here
         }
-
-
-        
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
+        /// game-specific content.
         /// </summary>
         protected override void UnloadContent()
         {
@@ -215,13 +201,6 @@ namespace HowToPool
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        /// 
-
-       
-
-       
-
-       
         protected override void Update(GameTime gameTime)
         {
             tickState = Config.State;
@@ -237,27 +216,30 @@ namespace HowToPool
             {
                 Exit();
             }
-            
+
             /*if (tickState == "startSPGame")
             {
                 StartGame();
                 Config.State = "SPGame";
             }*/
-            
-            
-           
+
+
+
             menu.UpdateMenus(application);
-            
+
             /*if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { 
                 balls[0].pos.X = 100;
             }*/
-            
+
             if (Keyboard.GetState().IsKeyDown(Keys.C) && cWasUp)
             {
                 cWasUp = false;
-                if (Config.shouldCollide){
+                if (Config.shouldCollide)
+                {
                     Config.shouldCollide = false;
-                }else{
+                }
+                else
+                {
                     Config.shouldCollide = true;
                 }
             }
@@ -309,9 +291,9 @@ namespace HowToPool
                 rWasUp = true;
             }
 
-            updateGame.run(Entities,application.balls,application.cue,mouseHandler,gameTime);
-           
-            
+            updateGame.run(Entities, application.balls, application.cue, mouseHandler, gameTime);
+
+
 
             base.Update(gameTime);
         }
@@ -327,11 +309,11 @@ namespace HowToPool
             spriteBatch.Begin();
 
 
- 
+
             //spriteBatch.DrawString(Font1, balls[0].vel.ToString(), new Vector2(150, 150), Color.Black, 0, FontOrigin, 2.0f, SpriteEffects.None, 0.5f);
             //spriteBatch.DrawString(Font1, "FPS: " + (1 / (Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds))).ToString(), new Vector2(0, 0), Color.Black);
             spriteBatch.DrawString(Font1, "Collisions: " + Config.shouldCollide, new Vector2(0, 20), Color.Black);
-            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistance.ToString() + "): "  + Config.shouldResist, new Vector2(0,40), Color.Black);
+            spriteBatch.DrawString(Font1, "Resistance (" + Config.resistance.ToString() + "): " + Config.shouldResist, new Vector2(0, 40), Color.Black);
             spriteBatch.DrawString(Font1, "Selected: " + menu.selected.ToString(), new Vector2(0, 60), Color.Black);
             spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Config.State + ")", new Vector2(0, 80), Color.Black);
             //spriteBatch.DrawString(Font1, "State: " + Config.State + " (" + Application.cue + ")", new Vector2(0, 100), Color.Black);
@@ -339,12 +321,12 @@ namespace HowToPool
 
             renderer.run(Entities, application.balls, application.cue, table, gameTime, spriteBatch);
 
-           
+
             menu.DrawMenus(spriteBatch);
 
 
 
-            
+
 
             spriteBatch.End();
 

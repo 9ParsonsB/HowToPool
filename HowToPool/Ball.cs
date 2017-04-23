@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace HowToPool
 {
@@ -24,20 +17,15 @@ namespace HowToPool
             : base(_texture, _vel, _pos)
         {
             sphere = new BoundingSphere(new Vector3(_pos.X + _radius,_pos.Y + _radius,0), _radius);
-
             mass = _mass;
-
             radius = _radius;
         }
 
         public void ballUpdate(List<Ball> balls, int i, GameTime gameTime)
         {
-
             //Console.WriteLine(this.pos);
             //Console.WriteLine(this.vel);
-
-            
-           
+       
             if (this.vel.X != 0 || this.vel.Y != 0)
             {
                 this.pos = this.pos + this.vel;
