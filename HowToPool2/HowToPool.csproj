@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Raylib_cs_Test</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs"/>
+    <Compile Include="Game1.cs"/>
+    <Compile Include="Config.cs"/>
+    <Compile Include="World.cs"/>
+    <Compile Include="Entity.cs"/>
+    <Compile Include="Cue.cs"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Raylib-cs" Version="3.5.0" />
+  </ItemGroup>
+</Project>
