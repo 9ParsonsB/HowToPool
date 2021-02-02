@@ -27,7 +27,9 @@ namespace HowToPool
                 //----------------------------------------------------------------------------------
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(Color.WHITE);
+
                 game.Draw();
+
                 Raylib.EndDrawing();
                 //----------------------------------------------------------------------------------
             }

@@ -17,7 +17,7 @@ namespace HowToPool
             }
 
             // if (settingSelected > SettingsMenuStrings.Count - 1)
-            { 
+            {
                 // settingSelected = SettingsMenuStrings.Count - 1;
             }
 

@@ -64,7 +64,7 @@ namespace HowToPool
         {
 
         }
-        
+
         // Draws settings menu
         public void DrawSettingsMenu()
         {
@@ -117,7 +117,7 @@ namespace HowToPool
 
                     changeSelectDown = false;
                     // if (selected >= MenuStrings.Count)
-                        // selected = MenuStrings.Count - 1;
+                    // selected = MenuStrings.Count - 1;
                     // Sets current selection to red
 
                     // MenuStrings[selected].TextColor = Color.Red;
