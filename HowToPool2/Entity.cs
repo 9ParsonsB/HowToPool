@@ -15,9 +15,9 @@ namespace HowToPool
 
         public void Update(List<Entity> balls, int i, float dt)
         {
-            Vector2 temp = speed;
             Resistance();
 
+            Vector2 temp = speed;
             if (Config.shouldResist)
             {
                 if (speed.X != 0)
@@ -33,89 +33,9 @@ namespace HowToPool
                 }
             }
 
-            if (temp.X > 0 && speed.X < 0 || temp.X < 0 && speed.X > 0)
-            {
-                speed.X = 0;
-            }
-
-            if (temp.Y > 0 && speed.Y < 0 || temp.Y < 0 && speed.Y > 0)
-            {
-                speed.Y = 0;
-            }
-
-            if (position.X < 0 || position.X > 1200 - radius)
-            {
-                speed.X *= -1;
-                if (position.X < 0)
-                {
-                    position.X = 1;
-                }
-                else
-                {
-                    position.X = 1199 - radius;
-                }
-            }
-
-            if (position.Y < 0 || position.Y > 700 - radius)
-            {
-                speed.Y *= -1;
-
-                if (position.Y < 0)
-                {
-                    position.Y = 1;
-                }
-                else
-                {
-                    position.Y = 699 - radius;
-                }
-            }
-
             if (float.IsNaN(position.X) || float.IsNaN(position.Y))
             {
                 Console.WriteLine("Error occured. Position is NaN");
-            }
-
-            for (int j = 0; j < balls.Count; j++)
-            {
-                // Makes sure ball isn't checked against itself
-                if (balls[i] != balls[j])
-                {
-                    if (balls[j].speed.X > Config.maxVel) { balls[j].speed.X = Config.maxVel; }
-                    if (balls[j].speed.Y > Config.maxVel) { balls[j].speed.Y = Config.maxVel; }
-
-                    if (balls[j].position.X < 0 || balls[j].position.X > 1200 - balls[j].radius)
-                    {
-                        balls[j].speed.X *= -1;
-
-                        if (balls[j].position.X < 0)
-                        {
-                            balls[j].position.X = 1;
-                        }
-                        else
-                        {
-                            balls[j].position.X = 1199 - balls[j].radius;
-                        }
-                    }
-
-                    if (balls[j].position.Y < 0 || balls[j].position.Y > 700 - balls[j].radius)
-                    {
-                        balls[j].speed.Y *= -1;
-
-                        if (balls[j].position.Y < 0)
-                        {
-                            balls[j].position.Y = 1;
-                        }
-                        else
-                        {
-                            balls[j].position.Y = 699 - balls[j].radius;
-                        }
-                    }
-
-                    if (Colliding(balls[j]) & Config.shouldCollide)
-                    {
-                        ResolveCollision(balls[j]);
-                    }
-                }
             }
         }
 

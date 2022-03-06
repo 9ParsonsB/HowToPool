@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>HowToPool</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Raylib-cs" Version="3.5.0" />
+    <PackageReference Include="Raylib-cs" Version="4.0.0.1" />
   </ItemGroup>
 </Project>

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Raylib_cs;
 
 namespace HowToPool
 {
-    class Player
-    {
-        public string name;
-        public int ballsRemaining;
-        public string colour;
-        public bool isTurn;
-    }
-
     /// <summary>
     /// Stores simulation state, config and systems.
     /// </summary>
@@ -60,7 +53,7 @@ namespace HowToPool
             };
         }
 
-        void AddRandomBalls()
+        private void AddRandomBalls()
         {
             for (int i = 0; i < 10; i++)
             {
@@ -80,9 +73,9 @@ namespace HowToPool
             }
         }
 
-        public Entity AddBall(Vector2 position, Vector2 speed)
+        private Entity AddBall(Vector2 position, Vector2 speed)
         {
-            Entity ball = new Entity
+            var ball = new Entity
             {
                 position = position,
                 speed = speed,
@@ -90,27 +83,69 @@ namespace HowToPool
                 mass = 100
             };
             entities.Add(ball);
+
             return ball;
-        }
-
-        public void Update(float dt)
-        {
-            for (int i = 0; i < entities.ToArray().Length; i++)
-            {
-                entities[i].position = entities[i].position + entities[i].speed * dt;
-                entities[i].Update(entities, i, dt);
-            }
-
-            if (entities.Count > 0)
-            {
-                cue.Update(dt, entities);
-            }
         }
 
         public void ClearBalls()
         {
             entities.Clear();
             cue.drawCue = false;
+        }
+
+        public void Update(float dt)
+        {
+            int width = Raylib.GetScreenWidth();
+            int height = Raylib.GetScreenHeight();
+
+            var top = new Rectangle(0, 0, width, 5);
+            var bottom = new Rectangle(0, height - 5, width, 5);
+            var left = new Rectangle(0, 0, 5, height);
+            var right = new Rectangle(width - 5, 0, 5, height);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].position += entities[i].speed * dt;
+
+                if (Raylib.CheckCollisionCircleRec(entities[i].position, entities[i].radius, top))
+                {
+                    entities[i].speed.Y *= -1;
+                }
+                else if (Raylib.CheckCollisionCircleRec(entities[i].position, entities[i].radius, bottom))
+                {
+                    entities[i].speed.Y *= -1;
+                }
+                else if (Raylib.CheckCollisionCircleRec(entities[i].position, entities[i].radius, left))
+                {
+                    entities[i].speed.X *= -1;
+                }
+                else if (Raylib.CheckCollisionCircleRec(entities[i].position, entities[i].radius, right))
+                {
+                    entities[i].speed.X *= -1;
+                }
+
+                entities[i].Update(entities, i, dt);
+
+                for (int j = 0; j < entities.Count; j++)
+                {
+                    // Makes sure ball isn't checked against itself
+                    if (entities[i] != entities[j])
+                    {
+                        if (entities[j].speed.X > Config.maxVel) { entities[j].speed.X = Config.maxVel; }
+                        if (entities[j].speed.Y > Config.maxVel) { entities[j].speed.Y = Config.maxVel; }
+
+                        if (entities[i].Colliding(entities[j]) & Config.shouldCollide)
+                        {
+                            entities[i].ResolveCollision(entities[j]);
+                        }
+                    }
+                }
+            }
+
+            if (entities.Count > 0)
+            {
+                cue.Update(dt, entities);
+            }
         }
     }
 }

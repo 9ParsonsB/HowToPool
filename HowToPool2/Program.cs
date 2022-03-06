@@ -4,11 +4,12 @@ namespace HowToPool
 {
     static class Program
     {
-        public static void Main()
+        public static unsafe void Main()
         {
             // Initialization
             //----------------------------------------------------------------------------------
-            Raylib.SetConfigFlags(ConfigFlag.FLAG_VSYNC_HINT | ConfigFlag.FLAG_MSAA_4X_HINT);
+            Raylib.SetTraceLogCallback(&Logging.LogConsole);
+            Raylib.SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT | ConfigFlags.FLAG_MSAA_4X_HINT);
             Raylib.InitWindow(Config.width, Config.height, "How To Pool");
 
             Game1 game = new Game1();
